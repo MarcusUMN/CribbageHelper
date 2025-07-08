@@ -14,7 +14,7 @@ export function Home() {
           Use our tools to score hands, explore strategies, and become a stronger player.
         </Text>
 
-        <Image src="./cribbage-board.png" alt="Cribbage cards and board" className={classes.image} />
+        <Image src="/CribbageHelper/cribbage-board.png" alt="Cribbage cards and board" className={classes.image} />
       </Stack>
     </Container>
   );
