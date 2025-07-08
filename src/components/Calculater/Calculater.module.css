@@ -1,0 +1,9 @@
+.wrapper {
+  margin: 2rem auto;
+  display: grid;
+  justify-content: center;
+}
+
+.checkboxWrapper {
+  display: flex;
+}

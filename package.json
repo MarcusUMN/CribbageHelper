@@ -1,0 +1,35 @@
+{
+  "name": "cribbage-helper",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "eslint": "next lint"
+  },
+  "dependencies": {
+    "@mantine/core": "8.1.2",
+    "@mantine/hooks": "8.1.2",
+    "@tabler/icons-react": "^3.34.0",
+    "next": "15.3.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@eslint/js": "^9.29.0",
+    "@types/node": "24.0.10",
+    "@types/react": "19.1.8",
+    "eslint": "^9.29.0",
+    "eslint-config-mantine": "^4.0.3",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "postcss": "^8.5.5",
+    "postcss-preset-mantine": "1.17.0",
+    "postcss-simple-vars": "^7.0.1",
+    "prettier": "^3.5.3",
+    "typescript": "5.8.3",
+    "typescript-eslint": "^8.34.0"
+  }
+}
