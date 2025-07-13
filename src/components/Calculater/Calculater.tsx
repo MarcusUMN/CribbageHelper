@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Stack, Title, Text, Popover } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons-react';
-import { cardToString, Card } from '../../utils/deck';
-import { validateHand } from '../../utils/validation';
-import { scoreHand, ScoreDetail } from '../../utils/scoring';
-import { CardSelector } from './CardSelector';
+import { Button, Switch, Stack, Title, Text, Popover, Group } from '@mantine/core';
+import { IconInfoCircle, IconDice4Filled } from '@tabler/icons-react';
+import { scoreHand, validateHand, Card, getRandomHand } from '../../utils';
+import { CardSelector, ScoringBreakdown, ScoredResult } from '../Shared';
 import classes from './Calculater.module.css';
 
 export const Calculater = () => {
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null]);
   const [starter, setStarter] = useState<Card | null>(null);
   const [isMyCrib, setIsMyCrib] = useState(false);
-  const [score, setScore] = useState<number | null>(null);
-  const [details, setDetails] = useState<ScoreDetail[]>([]);
+  
+  // Used for scoring
+  const [scoredResult, setScoredResult] = useState<ScoredResult>();
+
 
   const handleCardChange = (index: number, card: Card | null) => {
     const newHand = [...hand];
     newHand[index] = card;
     setHand(newHand);
   }
+
+  const handleRandomHand = () => {
+    const newHand = getRandomHand(5);
+    setHand(newHand.slice(0, 4));
+    setStarter(newHand[4] || null);
+  };
 
   const handleSubmit = () => {
     if (!starter || hand.some((c) => c === null)) {
@@ -30,15 +36,23 @@ export const Calculater = () => {
       return;
     }
     const result = scoreHand(hand as Card[], starter, isMyCrib);
-    setScore(result.total);
-    setDetails(result.details);
+    setScoredResult({
+      score: result.total,
+      details: result.details,
+      hand: hand as Card[],
+      starter,
+      isCrib: isMyCrib,
+  });
   }
 
   return (
     <div className={classes.wrapper}>
-      <Title order={2}>Cribbage Hand Scorer</Title>
+      <Title order={2}>Hand Scorer / Calculater</Title>
+      <Group  mb="md" mt="md" justify="space-between">
+        <Text fw={500}>Your Hand (4 cards):</Text>
+        <Button onClick={handleRandomHand} rightSection={<IconDice4Filled size={14} />}>Random Hand</Button>
+      </Group>
       <Stack gap="xs">
-        <Text mt="md" fw={500}>Your Hand (4 cards):</Text>
         {hand.map((card, idx) => (
           <CardSelector
             key={idx}
@@ -48,12 +62,12 @@ export const Calculater = () => {
         ))}
         <Text fw={500}>Cut Card:</Text>
         <CardSelector value={starter} onChange={setStarter} />
-        <div className={classes.checkboxWrapper}>
+        <div className={classes.switchWraper}>
           <Popover width={200} position="bottom" withArrow shadow="md">
-            <Checkbox
+            <Switch
               label="Score as Crib"
               checked={isMyCrib}
-              onChange={(e) => setIsMyCrib(e.currentTarget.checked)}
+              onChange={e => setIsMyCrib(e.currentTarget.checked)}
             />
             <Popover.Target>
               <IconInfoCircle size={16} style={{ verticalAlign: 'middle', marginLeft: 4 }} />
@@ -64,26 +78,17 @@ export const Calculater = () => {
           </Popover>
         </div>
       </Stack>
-      <Button
-        onClick={handleSubmit}
-        mt="xl"
-        size="md"
-        fullWidth
-      >
+      <Button onClick={handleSubmit} mt="sm" fullWidth>
         Score Hand
       </Button>
-
-      {score !== null && (
-        <div style={{ marginTop: 32 }}>
-          <Title order={3}>Total Score: {score}</Title>
-          <ul>
-            {details.map((d, i) => (
-              <li key={i}>
-                <strong>{d.type}</strong>: {d.points} points — {d.cards.map(cardToString).join(', ')}
-              </li>
-            ))}
-          </ul>
-        </div>
+      {scoredResult && (
+        <ScoringBreakdown
+          score={scoredResult.score}
+          details={scoredResult.details}
+          hand={scoredResult.hand}
+          starter={scoredResult.starter}
+          isCrib={scoredResult.isCrib}
+        />
       )}
     </div>
   );

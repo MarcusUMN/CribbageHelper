@@ -1,0 +1,27 @@
+.discardCell {
+  min-width: 100px;
+  padding-left: 12px;
+  font-weight: 600;
+}
+
+.groupHeader {
+  font-weight: 700;
+  color: #555;
+  text-align: center;
+  border-left: 2px solid #dee2e6;
+}
+
+.cellBorderLeft {
+  border-left: 2px solid #dee2e6;
+}
+
+.highlightCell {
+  background-color: #d9f2ff; /* light blue tint */
+  font-weight: 700;
+  color: #0c5db8;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}

@@ -1,0 +1,14 @@
+.wrapper {
+  margin: 2rem auto;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.result {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f6f7f8;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
