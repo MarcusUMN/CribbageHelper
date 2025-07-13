@@ -5,7 +5,7 @@ import { Button, Stack, Title, Text, Switch, Group } from '@mantine/core';
 import { IconDice4Filled } from '@tabler/icons-react';
 import { CardSelector } from '../Shared/CardSelector';
 import { Results } from './Results';
-import { Card, getRandomHand, cardToString, getCanonicalHandKey  } from '../../utils';
+import { Card, getRandomHand, cardToString, getHandHash } from '../../utils';
 import classes from './HandAnalyzer.module.css';
 
 export const HandAnalyzer = () => {
@@ -33,12 +33,12 @@ export const HandAnalyzer = () => {
       return;
     }
     
-    const key = getCanonicalHandKey(hand as Card[]);
+    const canonicalKey = getHandHash(hand as Card[]);
 
     router.push({
       pathname: router.pathname,
       query: {
-        data: key,
+        data: canonicalKey,
         crib: isMyCrib ? 'Y' : 'N',
       },
     }, undefined, { shallow: true });

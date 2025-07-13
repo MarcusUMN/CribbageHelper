@@ -31,11 +31,3 @@ export function getRandomHand(handLength: number): Card[] {
 export function cardToString(card: Card): string {
   return `${card.rank}${card.suit}`;
 }
-
-// Returns the same string for the same combination of cards, regardless of their order in the input array.
-export function getHandHash(cards: Card[]): string {
-  return cards
-    .map(cardToString)
-    .sort() 
-    .join('');
-} 

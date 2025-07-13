@@ -4,6 +4,7 @@ import { IconTableFilled } from '@tabler/icons-react';
 import dataJson from '../data.json';
 import { CribEvaluationResults, SerializedResult } from '../../../../scripts/generateHandEvaluatorData/data/generateData';
 import { Table } from './Table';
+import { convertHashToCanonicalKey, denormalizeHandsFromKey } from '../../../utils';
 import classes from './Results.module.css';
 
 const data = dataJson as Record<string, CribEvaluationResults>;
@@ -19,13 +20,16 @@ export const Results = ({ queryParams }: Props) => {
 
   if (!handKey) return <div>No hand data provided</div>;
 
-  const handData = data[handKey];
+  const canonicalKey = convertHashToCanonicalKey(handKey);
+  const handData = data[canonicalKey];
   if (!handData) return <div>No precomputed data found for hand: {handKey}</div>;
 
   // cribFlag expected as 'Y' or 'N'
-  const hands: SerializedResult[] = cribFlag === 'Y' ? handData.myCrib : handData.opponentCrib;
+  const handsRaw: SerializedResult[] = cribFlag === 'Y' ? handData.myCrib : handData.opponentCrib;
+  const hands = denormalizeHandsFromKey(handKey, handsRaw, handData.suitMap);
 
   if (!hands || hands.length === 0) return <div>No results available.</div>;
+
   return (
     <div className={classes.wrapper}>
       <Tabs variant="pills" defaultValue="table">
@@ -35,7 +39,7 @@ export const Results = ({ queryParams }: Props) => {
           </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="table">
-        <Table hands={hands} isMyCrib={isMyCrib} />
+          <Table hands={hands} isMyCrib={isMyCrib} />
         </Tabs.Panel>
       </Tabs>
     </div>

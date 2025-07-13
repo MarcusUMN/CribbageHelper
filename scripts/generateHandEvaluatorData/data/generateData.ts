@@ -1,6 +1,6 @@
-import { getDeck, cardToString, getHandHash } from '../../../src/utils';
+import { getDeck, canonicalizeHand } from '../../../src/utils';
 import { combinations } from '../../../src/utils/combinations';
-import { evaluateKeep} from '../evaluation/evalulateKeep';
+import { evaluateKeep } from '../evaluation/evalulateKeep';
 
 export type SerializedResult = {
   keep: string[];
@@ -11,6 +11,7 @@ export type SerializedResult = {
 export type CribEvaluationResults = {
   myCrib: SerializedResult[];
   opponentCrib: SerializedResult[];
+  suitMap: Record<string, string>;
 };
 
 export type CribEvaluationData = {
@@ -29,15 +30,16 @@ export function generateData(limitHands?: number): CribEvaluationData {
   const total = limitHands ? Math.min(limitHands, allHands.length) : allHands.length;
 
   for (let i = 0; i < total; i++) {
-    if ((i + 1) % 100 === 0) {
+    if ((i + 1) % 10000 === 0) {
       console.log(`Processing hand ${i + 1} of ${total}`);
     }
     const hand = allHands[i];
-    const handKey = getHandHash(hand);
+    const { canonicalKey, normalizeSubset, suitMap } = canonicalizeHand(hand);
 
-    if (seen.has(handKey)) continue;
-    seen.add(handKey);
-   
+    if (seen.has(canonicalKey)) continue; // skip duplicates
+    seen.add(canonicalKey);
+
+    // Remaining deck excludes cards in hand by exact rank+suit
     const remainingDeck = deck.filter(
       c => !hand.some(h => h.rank === c.rank && h.suit === c.suit)
     );
@@ -53,20 +55,21 @@ export function generateData(limitHands?: number): CribEvaluationData {
     for (const { keep, discard } of discardsAndKeeps) {
       const myCribData = evaluateKeep(keep, discard, remainingDeck, true);
       myCrib.push({
-        keep: keep.map(cardToString),
-        discard: discard.map(cardToString),
+        keep: normalizeSubset(keep),
+        discard: normalizeSubset(discard),
         scoreData: myCribData,
       });
 
       const oppCribStats = evaluateKeep(keep, discard, remainingDeck, false);
       opponentCrib.push({
-        keep: keep.map(cardToString),
-        discard: discard.map(cardToString),
+        keep: normalizeSubset(keep),
+        discard: normalizeSubset(discard),
         scoreData: oppCribStats,
       });
     }
 
-    results[handKey] = {
+    results[canonicalKey] = {
+      suitMap: Object.fromEntries(suitMap),
       myCrib,
       opponentCrib,
     };
@@ -77,5 +80,4 @@ export function generateData(limitHands?: number): CribEvaluationData {
     timeTakenSeconds: (Date.now() - startTime) / 1000,
     processedHands: seen.size,
   };
-} 
- 
+}
