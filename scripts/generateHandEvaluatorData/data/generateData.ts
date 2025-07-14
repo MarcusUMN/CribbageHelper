@@ -56,18 +56,17 @@ export function generateData(limitHands?: number): CribEvaluationData {
     });
 
     for (const { keep, discard } of discardsAndKeeps) {
-      const myCribData = evaluateKeep(keep, discard, remainingDeck, true);
+      const resultsData = evaluateKeep(keep, discard, remainingDeck);
       myCrib.push({
         keep: normalizeSubset(keep),
         discard: normalizeSubset(discard),
-        scoreData: myCribData,
+        scoreData: resultsData.myCrib,
       });
 
-      const oppCribStats = evaluateKeep(keep, discard, remainingDeck, false);
       opponentCrib.push({
         keep: normalizeSubset(keep),
         discard: normalizeSubset(discard),
-        scoreData: oppCribStats,
+        scoreData: resultsData.opponentCrib,
       });
     }
 

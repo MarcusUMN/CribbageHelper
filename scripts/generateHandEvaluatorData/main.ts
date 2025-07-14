@@ -3,7 +3,7 @@ import path from 'path';
 import { generateData } from './data/generateData';
 
 async function main(limit?: number) {
-  const { results, timeTakenSeconds, processedHands } = generateData(100);
+  const { results, timeTakenSeconds, processedHands } = generateData(10);
 
   const outPath = path.resolve(__dirname, '../../src/components/HandAnalyzer/data.json');
   const outDir = path.dirname(outPath);

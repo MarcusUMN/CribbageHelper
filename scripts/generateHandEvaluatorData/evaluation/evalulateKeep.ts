@@ -26,22 +26,34 @@ function getOrScoreHand(hand: Card[], cut: Card, isCrib: boolean): number {
 export function evaluateKeep(
   keep: Card[],
   discard: Card[],
-  remainingDeck: Card[],
-  isMyCrib: boolean
+  remainingDeck: Card[]
 ): {
-  hand: ScoreStats;
-  crib: ScoreStats;
-  combined: ScoreStats;
+  myCrib: {
+    hand: ScoreStats;
+    crib: ScoreStats;
+    combined: ScoreStats;
+  };
+  opponentCrib: {
+    hand: ScoreStats;
+    crib: ScoreStats;
+    combined: ScoreStats;
+  };
 } {
-  let totalWeight = 0;
+  let myTotalWeight = 0;
+  let myTotalHand = 0;
+  let myTotalCrib = 0;
+  let myTotalCombined = 0;
+  let myMinHand = Infinity;
+  let myMinCrib = Infinity;
+  let myMinCombined = Infinity;
 
-  let totalHand = 0;
-  let totalCrib = 0;
-  let totalCombined = 0;
-
-  let minHand = Infinity;
-  let minCrib = Infinity;
-  let minCombined = Infinity;
+  let oppTotalWeight = 0;
+  let oppTotalHand = 0;
+  let oppTotalCrib = 0;
+  let oppTotalCombined = 0;
+  let oppMinHand = Infinity;
+  let oppMinCrib = Infinity;
+  let oppMinCombined = Infinity;
 
   const excluded = new Set([
     ...keep.map(c => c.rank + c.suit),
@@ -53,7 +65,9 @@ export function evaluateKeep(
     if (excluded.has(cutStr)) continue;
 
     const handScore = getOrScoreHand(keep, cut, false);
-    minHand = Math.min(minHand, handScore);
+
+    myMinHand = Math.min(myMinHand, handScore);
+    oppMinHand = Math.min(oppMinHand, handScore);
 
     const oppExcluded = new Set(excluded);
     oppExcluded.add(cutStr);
@@ -69,28 +83,45 @@ export function evaluateKeep(
         const opp2 = opponentCandidates[j];
 
         const cribScore = getOrScoreHand([...discard, opp1, opp2], cut, true);
-        const weight = getDiscardWeight(opp1.rank, opp2.rank, isMyCrib);
+        const weight = getDiscardWeight(opp1.rank, opp2.rank, true);
 
-        const combinedScore = isMyCrib
-          ? handScore + cribScore
-          : handScore - cribScore;
+        // My crib case (isMyCrib = true)
+        {
+          const combinedScore = handScore + cribScore;
+          myTotalWeight += weight;
+          myTotalHand += handScore * weight;
+          myTotalCrib += cribScore * weight;
+          myTotalCombined += combinedScore * weight;
 
-        totalWeight += weight;
-        totalHand += handScore * weight;
-        totalCrib += cribScore * weight;
-        totalCombined += combinedScore * weight;
+          myMinCrib = Math.min(myMinCrib, cribScore);
+          myMinCombined = Math.min(myMinCombined, combinedScore);
+        }
 
-        minCrib = Math.min(minCrib, cribScore);
-        minCombined = Math.min(minCombined, combinedScore);
+        // Opponent crib case (isMyCrib = false)
+        {
+          const combinedScore = handScore - cribScore;
+          oppTotalWeight += weight;
+          oppTotalHand += handScore * weight;
+          oppTotalCrib += cribScore * weight;
+          oppTotalCombined += combinedScore * weight;
+
+          oppMinCrib = Math.min(oppMinCrib, cribScore);
+          oppMinCombined = Math.min(oppMinCombined, combinedScore);
+        }
       }
     }
   }
 
-  const weightSafe = totalWeight || 1;
-
   return {
-    hand: { avg: totalHand / weightSafe, min: minHand },
-    crib: { avg: totalCrib / weightSafe, min: minCrib },
-    combined: { avg: totalCombined / weightSafe, min: minCombined },
+    myCrib: {
+      hand: { avg: myTotalHand / (myTotalWeight || 1), min: myMinHand },
+      crib: { avg: myTotalCrib / (myTotalWeight || 1), min: myMinCrib },
+      combined: { avg: myTotalCombined / (myTotalWeight || 1), min: myMinCombined },
+    },
+    opponentCrib: {
+      hand: { avg: oppTotalHand / (oppTotalWeight || 1), min: oppMinHand },
+      crib: { avg: oppTotalCrib / (oppTotalWeight || 1), min: oppMinCrib },
+      combined: { avg: oppTotalCombined / (oppTotalWeight || 1), min: oppMinCombined },
+    },
   };
 }
