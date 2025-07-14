@@ -159,7 +159,7 @@ export const DataTable = ({ hands }: Props) => {
                 {hand.discard.map((cardStr, i) => {
                   const rank = cardStr.slice(0, -1);  // all but last char(s)
                   const suit = cardStr.slice(-1) as 'S' | 'H' | 'D' | 'C';  // last char
-                  return <FormatCard rank={rank} suit={suit}/>;
+                  return <FormatCard key={i} rank={rank} suit={suit}/>;
                 })}
               </Group>
             </Table.Td>

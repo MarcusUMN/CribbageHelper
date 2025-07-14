@@ -9,9 +9,9 @@ export type SerializedResult = {
 };
 
 export type CribEvaluationResults = {
+  canonicalSuitMaps: Record<string, string>[];
   myCrib: SerializedResult[];
   opponentCrib: SerializedResult[];
-  suitMap: Record<string, string>;
 };
 
 export type CribEvaluationData = {
@@ -30,16 +30,19 @@ export function generateData(limitHands?: number): CribEvaluationData {
   const total = limitHands ? Math.min(limitHands, allHands.length) : allHands.length;
 
   for (let i = 0; i < total; i++) {
-    if ((i + 1) % 10000 === 0) {
+    if ((i + 1) % 1000 === 0) {
       console.log(`Processing hand ${i + 1} of ${total}`);
     }
     const hand = allHands[i];
     const { canonicalKey, normalizeSubset, suitMap } = canonicalizeHand(hand);
+    const canonicalSuitMap = Object.fromEntries(suitMap);
 
-    if (seen.has(canonicalKey)) continue; // skip duplicates
+    if (results[canonicalKey]) {
+      results[canonicalKey].canonicalSuitMaps.push(canonicalSuitMap);
+      continue;
+    }
     seen.add(canonicalKey);
 
-    // Remaining deck excludes cards in hand by exact rank+suit
     const remainingDeck = deck.filter(
       c => !hand.some(h => h.rank === c.rank && h.suit === c.suit)
     );
@@ -69,7 +72,7 @@ export function generateData(limitHands?: number): CribEvaluationData {
     }
 
     results[canonicalKey] = {
-      suitMap: Object.fromEntries(suitMap),
+      canonicalSuitMaps: [canonicalSuitMap],
       myCrib,
       opponentCrib,
     };

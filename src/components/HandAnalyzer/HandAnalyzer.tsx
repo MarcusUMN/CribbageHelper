@@ -34,7 +34,6 @@ export const HandAnalyzer = () => {
     }
     
     const canonicalKey = getHandHash(hand as Card[]);
-
     router.push({
       pathname: router.pathname,
       query: {

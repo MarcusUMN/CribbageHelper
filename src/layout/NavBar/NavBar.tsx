@@ -28,7 +28,6 @@ export const NavBar = ({ children }:any) => {
   const renderLinks = (isDrawer = false) =>
     data.map((item) => {
       const linkProps = {
-        key: item.label,
         href: item.link,
         onClick: () => {
           setActive(item.label);
@@ -46,6 +45,7 @@ export const NavBar = ({ children }:any) => {
       return (
         <Link
           className={classes.link}
+          key={item.label}
           data-active={item.label === active || undefined}
           {...linkProps}
         >

@@ -2,12 +2,12 @@ import { ParsedUrlQuery } from 'querystring';
 import { Tabs } from '@mantine/core';
 import { IconTableFilled } from '@tabler/icons-react';
 import dataJson from '../data.json';
-import { CribEvaluationResults, SerializedResult } from '../../../../scripts/generateHandEvaluatorData/data/generateData';
+import { SerializedResult } from '../../../../scripts/generateHandEvaluatorData/data/generateData';
 import { Table } from './Table';
 import { convertHashToCanonicalKey, denormalizeHandsFromKey } from '../../../utils';
 import classes from './Results.module.css';
 
-const data = dataJson as Record<string, CribEvaluationResults>;
+const data = dataJson as any;
 
 type Props = {
   queryParams: ParsedUrlQuery;
@@ -19,15 +19,13 @@ export const Results = ({ queryParams }: Props) => {
   const isMyCrib = cribFlag === 'Y';
 
   if (!handKey) return <div>No hand data provided</div>;
-
   const canonicalKey = convertHashToCanonicalKey(handKey);
   const handData = data[canonicalKey];
   if (!handData) return <div>No precomputed data found for hand: {handKey}</div>;
 
   // cribFlag expected as 'Y' or 'N'
   const handsRaw: SerializedResult[] = cribFlag === 'Y' ? handData.myCrib : handData.opponentCrib;
-  const hands = denormalizeHandsFromKey(handKey, handsRaw, handData.suitMap);
-
+  const hands = denormalizeHandsFromKey(handKey, handsRaw,handData.canonicalSuitMaps, canonicalKey);
   if (!hands || hands.length === 0) return <div>No results available.</div>;
 
   return (

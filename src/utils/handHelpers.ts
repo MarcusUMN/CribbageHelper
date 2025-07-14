@@ -102,17 +102,27 @@ export function canonicalCardToOriginal(
   cardStr: string,
   canonicalToActualMap: Record<string, string>
 ): string {
+  const invertedMap = Object.entries(canonicalToActualMap).reduce<Record<string, string>>(
+    (acc, [actualSuit, canonicalSuit]) => {
+      acc[canonicalSuit] = actualSuit;
+      return acc;
+    }, {}
+  );
+
   const match = cardStr.match(/^(\d+|[AJQK])([SHDC]\d)$/);
   if (!match) {
     return cardStr;
   }
   const [, rank, canonicalSuit] = match;
-  const originalSuit = canonicalToActualMap[canonicalSuit];
+
+  const originalSuit = invertedMap[canonicalSuit];
+
   if (!originalSuit) {
     return cardStr;
   }
   return `${rank}${originalSuit}`;
 }
+
 
 
 export function denormalizeSerializedResult(
@@ -130,34 +140,47 @@ export function denormalizeSerializedResult(
   };
 }
 
-function createCanonicalToActualSuitMap(
+function findMatchingCanonicalSuitMap(
   handKey: string,
-  cachedSuitMap: Record<string, string>
-): Record<string, string> {
-  const actualSuitsInHand = new Set(handKey.split('-').map(cardStr => cardStr.slice(-1)));
-  const canonicalSuits = Object.values(cachedSuitMap);
+  canonicalSuitMaps: Record<string, string>[],
+  expectedCanonicalKey: string
+): Record<string, string> | null {
+  const originalCards = handKey.split('-').map(parseCard);
 
-  if (canonicalSuits.length === 1) {
-   const actualSuit =
-      actualSuitsInHand.size === 1
-        ? Array.from(actualSuitsInHand)[0]
-        : Array.from(actualSuitsInHand)[0];
-    return { [canonicalSuits[0]]: actualSuit };
+  for (const suitMap of canonicalSuitMaps) {
+    const actualToCanonical = new Map<string, string>(Object.entries(suitMap));
+
+    const parts: string[] = [];
+
+    const sortedCards = [...originalCards].sort((a, b) => {
+      if (a.rank === b.rank) return a.suit.localeCompare(b.suit);
+      return a.rank.localeCompare(b.rank);
+    });
+
+    for (const card of sortedCards) {
+      const mappedSuit = actualToCanonical.get(card.suit);
+      if (!mappedSuit) {
+        parts.push(`${card.rank}?`);
+        continue;
+      }
+      parts.push(`${card.rank}${mappedSuit}`);
+    }
+
+    const generatedKey = parts.join('-');
+    if (generatedKey === expectedCanonicalKey) {
+      return suitMap;
+    }
   }
 
-  // Otherwise invert cachedSuitMap normally
-  const invertedMap: Record<string, string> = {};
-  for (const [actual, canonical] of Object.entries(cachedSuitMap)) {
-    invertedMap[canonical] = actual;
-  }
-  return invertedMap;
+  return null;
 }
 
 export function denormalizeHandsFromKey(
   handKey: string,
   handsRaw: SerializedResult[],
-  cachedSuitMap: Record<string, string>
+  canonicalSuitMaps: Record<string, string>[],
+  canonicalKey: string
 ): SerializedResult[] {
-  const canonicalToActualSuitMap = createCanonicalToActualSuitMap(handKey, cachedSuitMap);
-  return handsRaw.map(sr => denormalizeSerializedResult(sr, canonicalToActualSuitMap));
+  const canonicalSuitMap = findMatchingCanonicalSuitMap(handKey, canonicalSuitMaps, canonicalKey) ?? {};
+  return handsRaw.map(sr => denormalizeSerializedResult(sr, canonicalSuitMap));
 }
