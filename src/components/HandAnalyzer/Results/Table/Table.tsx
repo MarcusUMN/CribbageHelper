@@ -94,7 +94,7 @@ export const TableHeader = ({
     <Table.Thead>
       <Table.Tr>
         <Table.Th rowSpan={2} className={classes.discardCell}>
-          Discard
+          Discards
         </Table.Th>
         <Table.Th colSpan={2} className={classes.groupHeader}>
           Hand + Crib
@@ -145,7 +145,7 @@ export const DataTable = ({ hands }: Props) => {
 
   return (
     <div className={classes.tableWrapper}>
-      <Table striped >
+      <Table striped>
         <TableHeader
           sortBy={sortBy}
           sortDirection={sortDirection}
