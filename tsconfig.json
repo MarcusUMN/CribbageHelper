@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
     "types": ["node"],
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "commonjs",
+    "module": "esnext",    
+    "target": "es2020",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
