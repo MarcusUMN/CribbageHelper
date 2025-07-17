@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "eslint": "next lint",
+    "precompute-base-score": "ts-node scripts/precomputeBaseScore/main.ts",
     "generate-data": "ts-node scripts/generateHandEvaluatorData/main.ts --max-old-space-size=8600"
   },
   "dependencies": {

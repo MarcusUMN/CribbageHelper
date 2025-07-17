@@ -1,32 +1,25 @@
 import { ParsedUrlQuery } from 'querystring';
 import { Tabs } from '@mantine/core';
 import { IconTableFilled } from '@tabler/icons-react';
-import dataJson from '../data.json';
-import { SerializedResult } from '../../../../scripts/generateHandEvaluatorData/data/generateData';
 import { Table } from './Table';
-import { convertHashToCanonicalKey, denormalizeHandsFromKey } from '../../../utils';
 import classes from './Results.module.css';
-
-const data = dataJson as any;
+import { evaluateSixCardHand } from '../../../utils'
 
 type Props = {
   queryParams: ParsedUrlQuery;
 };
 
 export const Results = ({ queryParams }: Props) => {
-  const handKey = queryParams.data as string | undefined;
-  const cribFlag = queryParams.crib as string | undefined;
+  const handKey = queryParams.data as string | undefined;  // "2S-3S-4S-5S-6S-AS"
+  const cribFlag = queryParams.crib as string | undefined; // Y | N
   const isMyCrib = cribFlag === 'Y';
 
   if (!handKey) return <div>No hand data provided</div>;
-  const canonicalKey = convertHashToCanonicalKey(handKey);
-  const handData = data[canonicalKey];
-  if (!handData) return <div>No precomputed data found for hand: {handKey}</div>;
 
-  // cribFlag expected as 'Y' or 'N'
-  const handsRaw: SerializedResult[] = cribFlag === 'Y' ? handData.myCrib : handData.opponentCrib;
-  const hands = denormalizeHandsFromKey(handKey, handsRaw,handData.canonicalSuitMaps, canonicalKey);
-  if (!hands || hands.length === 0) return <div>No results available.</div>;
+  const evaluationResults = evaluateSixCardHand(handKey, isMyCrib);
+
+  if (!evaluationResults || evaluationResults.length === 0)
+    return <div>No results available.</div>;
 
   return (
     <div className={classes.wrapper}>
@@ -37,7 +30,7 @@ export const Results = ({ queryParams }: Props) => {
           </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="table">
-          <Table hands={hands} isMyCrib={isMyCrib} />
+          <Table hands={evaluationResults} isMyCrib={isMyCrib} />
         </Tabs.Panel>
       </Tabs>
     </div>

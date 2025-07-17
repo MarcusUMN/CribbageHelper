@@ -1,5 +1,5 @@
 
-import { Rank } from '../../../src/utils/deck'; 
+import { Rank } from '../deck'; 
 
 // Full Schell discard weights for discarding to your crib
 export const discardWeightsMyCrib: Record<string, number> = {

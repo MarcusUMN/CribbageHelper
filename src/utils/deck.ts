@@ -17,6 +17,12 @@ export function getDeck(): Card[] {
   );
 }
 
+export function getRemainingDeck(sixCards: Card[]): Card[] {
+  const fullDeck = getDeck();
+  const usedKeys = new Set(sixCards.map(c => c.rank + c.suit));
+  return fullDeck.filter(card => !usedKeys.has(card.rank + card.suit));
+}
+
 export function getRandomHand(handLength: number): Card[] {
   const deck = getDeck();
   const shuffled = [...deck];

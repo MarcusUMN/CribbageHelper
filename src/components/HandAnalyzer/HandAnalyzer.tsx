@@ -33,11 +33,11 @@ export const HandAnalyzer = () => {
       return;
     }
     
-    const canonicalKey = getHandHash(hand as Card[]);
+    const handHash = getHandHash(hand as Card[]);
     router.push({
       pathname: router.pathname,
       query: {
-        data: canonicalKey,
+        data: handHash,
         crib: isMyCrib ? 'Y' : 'N',
       },
     }, undefined, { shallow: true });
