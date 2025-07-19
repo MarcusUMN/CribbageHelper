@@ -1,10 +1,10 @@
 import React from 'react';
-import { HandAnalyzer } from '../components/HandAnalyzer';
+import { CutCardInsight } from '../components/CutCardInsight';
 
 export default function () {
   return (
     <React.Fragment>
-      <HandAnalyzer />
+      <CutCardInsight />
     </React.Fragment>
   );
 }

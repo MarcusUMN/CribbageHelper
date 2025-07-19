@@ -9,21 +9,21 @@ export const Calculater = () => {
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null]);
   const [starter, setStarter] = useState<Card | null>(null);
   const [isMyCrib, setIsMyCrib] = useState(false);
-  
-  // Used for scoring
-  const [scoredResult, setScoredResult] = useState<ScoredResult>();
+  const [scoredResult, setScoredResult] = useState<ScoredResult | null>();
 
 
   const handleCardChange = (index: number, card: Card | null) => {
     const newHand = [...hand];
     newHand[index] = card;
     setHand(newHand);
+    setScoredResult(null)
   }
 
   const handleRandomHand = () => {
     const newHand = getRandomHand(5);
     setHand(newHand.slice(0, 4));
     setStarter(newHand[4] || null);
+    setScoredResult(null)
   };
 
   const handleSubmit = () => {

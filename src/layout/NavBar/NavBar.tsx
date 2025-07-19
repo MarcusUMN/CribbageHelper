@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Burger, Drawer, Group, Stack} from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconHome, IconCalculator, IconBrain } from '@tabler/icons-react';
+import { IconHome, IconCalculator, IconBrain, IconCut } from '@tabler/icons-react';
 import { Header } from '../Header';
 import classes from './NavBar.module.css';
 
@@ -11,6 +11,7 @@ const data = [
   { link: '/', label: 'Home', icon: IconHome },
   { link: '/calculator', label: 'Calculator', icon: IconCalculator },
   { link: '/hand-analyzer', label: 'Hand Analyzer', icon:IconBrain },
+  { link: '/cut-card-insight', label: 'Cut Card Insight', icon:IconCut },
 ];
 
 export const NavBar = ({ children }:any) => {

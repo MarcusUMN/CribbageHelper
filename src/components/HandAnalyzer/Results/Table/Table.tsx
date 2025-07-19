@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Group, Text } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { FormatCard } from '../../../Shared/FormatCard';
+import { FormatCard } from '../../../Shared';
 import classes from './Table.module.css';
 
 type CardStr = string;

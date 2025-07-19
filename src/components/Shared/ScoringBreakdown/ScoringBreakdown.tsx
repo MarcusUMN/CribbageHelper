@@ -43,7 +43,7 @@ export const ScoringBreakdown = ({ score, details, hand, starter, isCrib }: Scor
           style={{ border: '2px solid red' }}
         />
       </Group>
-      <Table striped highlightOnHover withTableBorder>
+      <Table striped withTableBorder>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Points</Table.Th>

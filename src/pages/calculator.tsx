@@ -1,10 +1,10 @@
 import React from 'react';
-import { Calculater as HandScorer } from '../components/Calculater';
+import { Calculater} from '../components/Calculater';
 
-export default function Calculater() {
+export default function () {
   return (
     <React.Fragment>
-      <HandScorer />
+      <Calculater />
     </React.Fragment>
   );
 }

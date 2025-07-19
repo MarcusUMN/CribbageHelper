@@ -1,0 +1,1 @@
+export {CutCardInsight} from './CutCardInsight';
