@@ -1,10 +1,10 @@
 import React from 'react';
-import { Calculater} from '../components/Calculater';
+import { Calculator} from '../components/Calculator';
 
 export default function () {
   return (
     <React.Fragment>
-      <Calculater />
+      <Calculator />
     </React.Fragment>
   );
 }

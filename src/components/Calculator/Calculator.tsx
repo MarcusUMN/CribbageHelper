@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Switch, Stack, Title, Text, Popover, Group } from '@mantine/core';
-import { IconInfoCircle, IconDice4Filled } from '@tabler/icons-react';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { scoreHand, validateHand, Card, getRandomHand } from '../../utils';
-import { CardSelector, ScoringBreakdown, ScoredResult } from '../Shared';
-import classes from './Calculater.module.css';
+import { CardSelector, ScoringBreakdown, ScoredResult, HeaderSection } from '../Shared';
+import classes from './Calculator.module.css';
 
-export const Calculater = () => {
+export const Calculator = () => {
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null]);
   const [starter, setStarter] = useState<Card | null>(null);
   const [isMyCrib, setIsMyCrib] = useState(false);
@@ -47,11 +47,12 @@ export const Calculater = () => {
 
   return (
     <div className={classes.wrapper}>
-      <Title order={2}>Hand Scorer / Calculater</Title>
-      <Group  mb="md" mt="md" justify="space-between">
-        <Text fw={500}>Your Hand (4 cards):</Text>
-        <Button onClick={handleRandomHand} rightSection={<IconDice4Filled size={14} />}>Random Hand</Button>
-      </Group>
+      <HeaderSection
+        title="Hand Scorer / Calculator"
+        description="Score your 4-card hand and starter."
+        label="Select Your Hand (4 cards):"
+        onRandom={handleRandomHand}
+      />
       <Stack gap="xs">
         {hand.map((card, idx) => (
           <CardSelector

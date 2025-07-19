@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
-import { Button, Stack, Title, Text, Switch, Group } from '@mantine/core';
-import { IconDice4Filled } from '@tabler/icons-react';
-import { CardSelector } from '../Shared/CardSelector';
+import { Button, Stack, Switch } from '@mantine/core';
+import { CardSelector, HeaderSection } from '../Shared';
 import { Results } from './Results';
 import { Card, getRandomHand, cardToString, getHandHash } from '../../utils';
 import classes from './HandAnalyzer.module.css';
@@ -58,11 +57,12 @@ export const HandAnalyzer = () => {
 
   return (
     <div className={classes.wrapper}>
-      <Title order={2}>Hand Analyzer</Title>
-      <Group  mb="md" mt="md" justify="space-between">
-        <Text fw={500}>Your Hand (6 cards):</Text>
-        <Button onClick={handleRandomHand} rightSection={<IconDice4Filled size={14} />}>Random Hand</Button>
-      </Group>
+      <HeaderSection
+        title="Hand Analyzer"
+        description="Analyze your 6 cards to find the best 4-card hand."
+        label="Select Your Hand (6 cards):"
+        onRandom={handleRandomHand}
+      />
       <Stack gap="xs">
         {hand.map((card, i) => (
           <CardSelector key={i} value={card} onChange={c => handleChange(i, c)} />

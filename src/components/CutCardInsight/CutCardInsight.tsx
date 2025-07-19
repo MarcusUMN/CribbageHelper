@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Stack, Title, Text, Group, Table, ScrollArea } from '@mantine/core';
-import { IconDice4Filled } from '@tabler/icons-react';
+import { Button, Stack, Title, Group, Table } from '@mantine/core';
 import { scoreHand, Card, getDeck, getRandomHand, validateHand } from '../../utils';
-import { CardSelector, FormatCard } from '../Shared';
+import { CardSelector, FormatCard, HeaderSection } from '../Shared';
 import classes from './CutCardInsight.module.css';
 
 export const CutCardInsight = () => {
@@ -57,13 +56,12 @@ export const CutCardInsight = () => {
     
   return (
     <div className={classes.wrapper}>
-      <Title order={2}>Cut Card Insight</Title>
-      <Group mb="md" mt="md" justify="space-between">
-        <Text fw={500}>Select Your Hand (4 cards):</Text>
-        <Button onClick={handleRandomHand} rightSection={<IconDice4Filled size={14} />}>
-          Random Hand
-        </Button>
-      </Group>
+      <HeaderSection
+        title="Cut Card Insight"
+        description="Score your 4-card hand against every possible cut card to see your potential points."
+        label="Select Your Hand (4 cards):"
+        onRandom={handleRandomHand}
+      />
       <Stack gap="xs">
         {hand.map((card, idx) => (
           <CardSelector key={idx} value={card} onChange={(c) => handleCardChange(idx, c)} />
@@ -75,35 +73,42 @@ export const CutCardInsight = () => {
       {groupedScores && (
         <React.Fragment>
           <Title order={4} mt="lg" mb="sm">
-            Cut Card Scores
+            Total Scores With Cut Card
           </Title>
           <Table striped withTableBorder withColumnBorders>
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Score</Table.Th>
                 <Table.Th>Cut Cards</Table.Th>
+                <Table.Th style={{ width: 80, textAlign: 'right' }}>Probability</Table.Th>  {/* New column */}
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
               {Object.entries(groupedScores)
                 .sort((a, b) => Number(b[0]) - Number(a[0]))
-                .map(([score, starters]) => (
-                  <Table.Tr key={score}>
-                    <Table.Td style={{ width: 60, fontWeight: 'bold' }}>{score}</Table.Td>
-                    <Table.Td>
-                      <Group>
-                        {starters.map((starter, i) => (
-                          <FormatCard
-                            key={i}
-                            rank={starter.rank}
-                            suit={starter.suit}
-                            iconSize={20}
-                          />
-                        ))}
-                      </Group>
-                    </Table.Td>
-                  </Table.Tr>
-                ))}
+                .map(([score, starters]) => {
+                  const percentage = ((starters.length / 48 ) * 100).toFixed(1);
+                  return (
+                    <Table.Tr key={score}>
+                      <Table.Td style={{ width: 60, textAlign: 'center', fontWeight: 'bold' }}>{score}</Table.Td>
+                      <Table.Td>
+                        <Group>
+                          {starters.map((starter, i) => (
+                            <FormatCard
+                              key={i}
+                              rank={starter.rank}
+                              suit={starter.suit}
+                              iconSize={20}
+                            />
+                          ))}
+                        </Group>
+                      </Table.Td>
+                      <Table.Td style={{ width: 60, textAlign: 'center', fontWeight: 'bold' }}>
+                        {percentage}%
+                      </Table.Td>
+                    </Table.Tr>
+                  );
+                })}
             </Table.Tbody>
           </Table>
       </React.Fragment>

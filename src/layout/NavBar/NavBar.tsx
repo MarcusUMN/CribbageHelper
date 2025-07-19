@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Burger, Drawer, Group, Stack} from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { Burger, Drawer, Group, Stack } from '@mantine/core';
 import { IconHome, IconCalculator, IconBrain, IconCut } from '@tabler/icons-react';
 import { Header } from '../Header';
 import classes from './NavBar.module.css';
@@ -10,15 +9,13 @@ import classes from './NavBar.module.css';
 const data = [
   { link: '/', label: 'Home', icon: IconHome },
   { link: '/calculator', label: 'Calculator', icon: IconCalculator },
-  { link: '/hand-analyzer', label: 'Hand Analyzer', icon:IconBrain },
-  { link: '/cut-card-insight', label: 'Cut Card Insight', icon:IconCut },
+  { link: '/hand-analyzer', label: 'Hand Analyzer', icon: IconBrain },
+  { link: '/cut-card-insight', label: 'Cut Card Insight', icon: IconCut },
 ];
 
-export const NavBar = ({ children }:any) => {
+export const NavBar = ({ children }: any) => {
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [active, setActive] = useState('');
-  const isMobile = useMediaQuery('(max-width: 768px)');
-
   const router = useRouter();
 
   useEffect(() => {
@@ -45,8 +42,8 @@ export const NavBar = ({ children }:any) => {
 
       return (
         <Link
-          className={classes.link}
           key={item.label}
+          className={classes.link}
           data-active={item.label === active || undefined}
           {...linkProps}
         >
@@ -55,17 +52,27 @@ export const NavBar = ({ children }:any) => {
       );
     });
 
-  // Mobile layout
-  if (isMobile) {
-    return (
-      <div>
+  return (
+    <React.Fragment>
+      {/* Desktop Layout */}
+      <div className={classes.wrapperDesktop}>
+        <Header isMobile={false} />
+        <div className={classes.navWrapper}>
+          <nav className={classes.nav}>
+            <div>{renderLinks()}</div>
+          </nav>
+          <main className={classes.mainDesktop}>{children}</main>
+        </div>
+      </div>
+      {/* Mobile Layout */}
+      <div className={classes.wrapperMobile}>
         <Group className={classes.groupBurgerHeader}>
           <Burger
             opened={drawerOpened}
             onClick={() => setDrawerOpened((o) => !o)}
             size="sm"
           />
-          <Header isMobile/>
+          <Header isMobile />
         </Group>
         <Drawer
           opened={drawerOpened}
@@ -73,27 +80,12 @@ export const NavBar = ({ children }:any) => {
           padding="md"
           size="250px"
         >
-          <Stack >{renderLinks(true)}</Stack>
+          <Stack>{renderLinks(true)}</Stack>
         </Drawer>
         <div className={classes.pageWrapperMobile}>
           <main className={classes.mainMobile}>{children}</main>
         </div>
       </div>
-    );
-  }
-
-  // Desktop layout 
-  return (
-    <div className={classes.wrapperDesktop}>
-      <Header isMobile={false} />
-      <div className={classes.navWrapper}>
-        <nav className={classes.nav}>
-          <div>
-            {renderLinks()}
-          </div>
-        </nav>
-        <main className={classes.mainDesktop}>{children}</main>
-      </div>
-    </div>
+    </React.Fragment>
   );
 };

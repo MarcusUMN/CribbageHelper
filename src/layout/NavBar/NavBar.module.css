@@ -80,3 +80,15 @@
   background-color: #8FCFC0;
 }
 
+.wrapperMobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrapperMobile {
+    display: block;
+  }
+  .wrapperDesktop {
+    display: none;
+  }
+}
