@@ -4,7 +4,7 @@ import { ScoreDetail, cardToString, Card } from '../../../utils';
 
 function getCardImageFilename(card: Card): string {
   console.log('getCardImageFilename', cardToString(card));
-  return `/CribbageHelper/cards/${cardToString(card)}.svg`; 
+  return `/cards/${cardToString(card)}.svg`; 
 }
 
 export type ScoredResult = {
