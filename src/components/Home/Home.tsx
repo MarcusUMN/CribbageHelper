@@ -6,7 +6,7 @@ export function Home() {
     <Container size="md" py="xl">
       <Stack align="center">
         <Title order={1} className={classes.title}>
-          Welcome to <span className={classes.highlight}>CRIBBAGE HELPER</span>
+          Welcome to <span className={classes.highlight}>CRIBBAGE NINJA</span>
         </Title>
 
         <Text size="lg" ta="center" className={classes.subtitle}>
