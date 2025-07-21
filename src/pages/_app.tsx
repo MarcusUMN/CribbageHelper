@@ -2,6 +2,7 @@ import '@mantine/core/styles.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '../../theme';
 import { AppLayout } from '../layout/AppLayout';
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <AppLayout>
         <Component {...pageProps} />
         <Analytics />
+        <SpeedInsights />
       </AppLayout>
     </MantineProvider>
   );
