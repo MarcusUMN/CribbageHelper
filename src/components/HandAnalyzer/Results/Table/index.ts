@@ -1,1 +1,1 @@
-export { DataTable as Table } from './Table';
+export { Table } from './Table';
