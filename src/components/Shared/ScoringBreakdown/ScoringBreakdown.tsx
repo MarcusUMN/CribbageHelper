@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { ScoreDetail, cardToString, Card } from '../../../utils';
 
 function getCardImageFilename(card: Card): string {
-  console.log('getCardImageFilename', cardToString(card));
   return `/cards/${cardToString(card)}.svg`; 
 }
 

@@ -21,16 +21,12 @@ export const Results = ({ queryParams }: Props) => {
 
   const { result, loading } = useCachedEvaluation(handKey, isMyCrib);
 
-  if (loading) {
+  if (loading || !result ) {
     return (
       <Center mt="xl" style={{ height: '700px' }}>
         <Loader color="blue" size="lg" />
       </Center>
     );
-  }
-
-  if (!result || result.length === 0) {
-    return <div>No results available.</div>;
   }
 
   return (

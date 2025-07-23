@@ -7,7 +7,7 @@
 }
 
 .leftColumn {
-  flex: 1 1 300px; /* flexible, min width 300px */
+  flex: 1 1 300px;
   max-width: 600px;
 }
 

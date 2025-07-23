@@ -4,12 +4,13 @@ import { ParsedUrlQuery } from 'querystring';
 import { Button, Stack, Switch } from '@mantine/core';
 import { CardSelector, HeaderSection } from '../Shared';
 import { Results } from './Results';
+import { HandAnalyzerProps } from '../../pages/hand-analyzer'
 import { Card, getRandomHand, cardToString, getHandHash } from '../../utils';
 import classes from './HandAnalyzer.module.css';
 
-export const HandAnalyzer = () => {
+export const HandAnalyzer = ({ initialQueryParams}: HandAnalyzerProps) => {
   const router = useRouter();
-  const [queryParams, setQueryParams] = useState<ParsedUrlQuery | undefined>(undefined);
+  const [queryParams, setQueryParams] = useState<ParsedUrlQuery | undefined>(initialQueryParams );
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null, null, null]);
   const [isMyCrib, setIsMyCrib] = useState(false);
 
