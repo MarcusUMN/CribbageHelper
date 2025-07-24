@@ -9,14 +9,15 @@ import {
   Box,
 } from '@mantine/core';
 import { IconSettings } from '@tabler/icons-react';
-import { StatKey, stats } from '../types'
+import { StatKey } from '../../../SharedTable'
 
 type Props = {
   visibleStats: Set<StatKey>;
   onToggleStat: (key: StatKey) => void;
+  stats: {label: string; key: StatKey;}[]
 };
 
-export const TableToolbar = ({ visibleStats, onToggleStat }: Props) => {
+export const Toolbar = ({ stats, visibleStats, onToggleStat }: Props) => {
   const [modalOpened, setModalOpened] = useState(false);
 
   return (

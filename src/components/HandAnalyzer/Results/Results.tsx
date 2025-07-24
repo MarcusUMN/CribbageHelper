@@ -1,9 +1,10 @@
 import { ParsedUrlQuery } from 'querystring';
 import { Tabs, Center, Loader, Button, Group, Title, Badge } from '@mantine/core';
-import { IconTableFilled } from '@tabler/icons-react';
+import { IconTableFilled, IconCirclePercentageFilled } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { FormatCard } from '../../Shared';
-import { Table } from './Table';
+import { Stats } from './Stats';
+import { Probabilities } from './Probabilities';
 import classes from './Results.module.css';
 import { useCachedEvaluation } from '../hooks/useCachedEvaluation';
 
@@ -49,14 +50,20 @@ export const Results = ({ queryParams }: Props) => {
             return <FormatCard key={idx} rank={rank} suit={suit} iconSize={20} />;
           })}
       </Group>
-      <Tabs variant="pills" defaultValue="table">
+      <Tabs variant="pills" defaultValue="stats">
         <Tabs.List>
-          <Tabs.Tab value="table" leftSection={<IconTableFilled size={12} />}>
-            Table
+          <Tabs.Tab value="stats" leftSection={<IconTableFilled size={12} />}>
+            Stats
+          </Tabs.Tab>
+          <Tabs.Tab value="probabilities" leftSection={<IconCirclePercentageFilled size={12} />}>
+            Probabilities
           </Tabs.Tab>
         </Tabs.List>
-        <Tabs.Panel value="table">
-          <Table hands={result} isMyCrib={isMyCrib} />
+        <Tabs.Panel value="stats">
+          <Stats hands={result} isMyCrib={isMyCrib} />
+        </Tabs.Panel>
+         <Tabs.Panel value="probabilities">
+          <Probabilities hands={result} isMyCrib={isMyCrib} />
         </Tabs.Panel>
       </Tabs>
     </div>
