@@ -1,29 +1,81 @@
 import React, { useState } from 'react';
-import { Button, Switch, Stack, Title, Text, Popover, Group } from '@mantine/core';
+import {
+  Button,
+  Switch,
+  Stack,
+  Text,
+  Popover,
+} from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { scoreHand, validateHand, Card, getRandomHand } from '../../utils';
-import { CardSelector, ScoringBreakdown, ScoredResult, HeaderSection } from '../Shared';
+import { useRouter } from 'next/router';
+import { CalculaterProps } from '../../pages/calculator';
+import {
+  scoreHand,
+  validateHand,
+  Card,
+  getRandomHand,
+  getHandHash,
+  parseHandString,
+} from '../../utils';
+import {
+  CardSelector,
+  ScoringBreakdown,
+  ScoredResult,
+  HeaderSection,
+} from '../Shared';
 import classes from './Calculator.module.css';
 
-export const Calculator = () => {
-  const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null]);
-  const [starter, setStarter] = useState<Card | null>(null);
-  const [isMyCrib, setIsMyCrib] = useState(false);
-  const [scoredResult, setScoredResult] = useState<ScoredResult | null>();
+function toSingleString(param: string | string[] | undefined): string {
+  if (!param) return '';
+  return Array.isArray(param) ? param[0] : param;
+}
 
+export const Calculator = ({ initialQueryParams }: CalculaterProps) => {
+  const router = useRouter();
+  const handStr = toSingleString(initialQueryParams.hand);
+  const starterStr = toSingleString(initialQueryParams.s);
+  const cribStr = toSingleString(initialQueryParams.c);
+  
+  const parsedHand = parseHandString(handStr);
+  const initialHand = parsedHand.length === 4 ? parsedHand : [null, null, null, null];
+  const parsedStarter = parseHandString(starterStr);
+  const initialStarter = parsedStarter.length === 1 ? parsedStarter[0] : null;
+  const initialIsCrib = cribStr.toUpperCase() === 'Y';
+
+  const [hand, setHand] = React.useState<(Card | null)[]>(initialHand);
+  const [starter, setStarter] = React.useState<Card | null>(initialStarter);
+  const [isCrib, setIsCrib] = React.useState(initialIsCrib);
+  const [scoredResult, setScoredResult] = useState<ScoredResult | null>(() => {
+    if (
+      initialHand.length === 4 &&
+      initialHand.every(Boolean) &&
+      initialStarter !== null &&
+      validateHand(initialHand as Card[], initialStarter)
+    ) {
+      const result = scoreHand(initialHand as Card[], initialStarter, initialIsCrib);
+      return {
+        score: result.total,
+        details: result.details,
+        hand: initialHand as Card[],
+        starter: initialStarter,
+        isCrib: initialIsCrib,
+      };
+    }
+    return null;
+  });
 
   const handleCardChange = (index: number, card: Card | null) => {
     const newHand = [...hand];
     newHand[index] = card;
     setHand(newHand);
-    setScoredResult(null)
-  }
+    setScoredResult(null);
+  };
 
   const handleRandomHand = () => {
     const newHand = getRandomHand(5);
     setHand(newHand.slice(0, 4));
     setStarter(newHand[4] || null);
-    setScoredResult(null)
+    setScoredResult(null);
   };
 
   const handleSubmit = () => {
@@ -35,15 +87,27 @@ export const Calculator = () => {
       alert('Invalid hand - duplicate cards detected or wrong number');
       return;
     }
-    const result = scoreHand(hand as Card[], starter, isMyCrib);
+    const result = scoreHand(hand as Card[], starter, isCrib);
     setScoredResult({
       score: result.total,
       details: result.details,
       hand: hand as Card[],
       starter,
-      isCrib: isMyCrib,
-  });
-  }
+      isCrib,
+    });
+    const handStr = getHandHash(hand as Card[]);
+    const starterStr = getHandHash([starter]);
+    const cribFlag = isCrib ? 'Y' : 'N';
+
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { hand: handStr, s: starterStr, c: cribFlag },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
 
   return (
     <div className={classes.wrapper}>
@@ -62,19 +126,30 @@ export const Calculator = () => {
           />
         ))}
         <Text fw={500}>Cut Card:</Text>
-        <CardSelector value={starter} onChange={setStarter} />
+        <CardSelector 
+          value={starter} 
+          onChange={(card) => {
+            setStarter(card);
+            setScoredResult(null); 
+          }}
+        />
         <div className={classes.switchWraper}>
           <Popover width={200} position="bottom" withArrow shadow="md">
             <Switch
               label="Score as Crib"
-              checked={isMyCrib}
-              onChange={e => setIsMyCrib(e.currentTarget.checked)}
+              checked={isCrib}
+              onChange={(e) => setIsCrib(e.currentTarget.checked)}
             />
             <Popover.Target>
-              <IconInfoCircle size={16} style={{ verticalAlign: 'middle', marginLeft: 4 }} />
+              <IconInfoCircle
+                size={16}
+                style={{ verticalAlign: 'middle', marginLeft: 4 }}
+              />
             </Popover.Target>
             <Popover.Dropdown>
-              <Text size="xs">In the crib, flushes only count if all 5 cards match suit</Text>
+              <Text size="xs">
+                In the crib, flushes only count if all 5 cards match suit
+              </Text>
             </Popover.Dropdown>
           </Popover>
         </div>

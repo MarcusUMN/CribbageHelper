@@ -1,6 +1,7 @@
 import { Table, Title, Group, Text } from '@mantine/core';
 import Image from 'next/image';
 import { ScoreDetail, cardToString, Card } from '../../../utils';
+import { ShareLinkButton } from '../ShareLinkButton';
 
 function getCardImageFilename(card: Card): string {
   return `/cards/${cardToString(card)}.svg`; 
@@ -17,12 +18,15 @@ export type ScoredResult = {
 export const ScoringBreakdown = ({ score, details, hand, starter, isCrib }: ScoredResult) => {
   return (
     <div style={{ marginTop: 32 }}>
-      <Title order={3} mb="sm">
-        Total Score: {score}
-        <Text span size="sm" c="dimmed" ml="sm">
-          ({isCrib ? 'Crib' : 'Hand'})
-        </Text>
-      </Title>
+      <Group justify="space-between" align="center">
+        <Title order={3} mb="sm">
+          Total Score: {score}
+          <Text span size="sm" c="dimmed" ml="sm">
+            ({isCrib ? 'Crib' : 'Hand'})
+          </Text>
+        </Title>
+        <ShareLinkButton />
+      </Group>
       <Group gap="xs" mb="md" mt="md" >
         {hand.map((card, idx) => (
           <Image

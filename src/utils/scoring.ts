@@ -10,7 +10,7 @@ export interface ScoreDetail {
 export function scoreHand(
   hand: Card[],
   starter: Card,
-  isMyCrib: boolean
+  isCrib: boolean
 ): { total: number; details: ScoreDetail[] } {
   const fullHand = [...hand, starter];
   const details: ScoreDetail[] = [];
@@ -25,7 +25,7 @@ export function scoreHand(
   details.push(...scoreRuns(fullHand));
 
   // 4. Flush (4 cards in hand same suit, +1 if starter matches; 5 if crib flush)
-  details.push(...scoreFlush(hand, starter, isMyCrib));
+  details.push(...scoreFlush(hand, starter, isCrib));
 
   // 5. Nobs (Jack in hand same suit as starter, 1 point)
   details.push(...scoreNobs(hand, starter));
