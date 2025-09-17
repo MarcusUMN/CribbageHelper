@@ -5,7 +5,7 @@ import { generateBaseScores } from './generateBaseScores';
 async function main() {
   const { baseScoreMap } = generateBaseScores();
 
-  const outPath = path.resolve(__dirname, '../../src/components/HandAnalyzer/scoring/baseScoreCache.json');
+  const outPath = path.resolve(__dirname, '../../src/components/HandOptimizer/scoring/baseScoreCache.json');
   const outDir = path.dirname(outPath);
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(baseScoreMap, null, 2));

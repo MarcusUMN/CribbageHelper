@@ -8,7 +8,7 @@ import {
 } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { CalculaterProps } from '../../pages/calculator';
+import { HandCalculatorProps } from '../../pages/hand-calculator';
 import {
   scoreHand,
   validateHand,
@@ -23,14 +23,14 @@ import {
   ScoredResult,
   HeaderSection,
 } from '../Shared';
-import classes from './Calculator.module.css';
+import classes from './HandCalculator.module.css';
 
 function toSingleString(param: string | string[] | undefined): string {
   if (!param) return '';
   return Array.isArray(param) ? param[0] : param;
 }
 
-export const Calculator = ({ initialQueryParams }: CalculaterProps) => {
+export const HandCalculator = ({ initialQueryParams }: HandCalculatorProps) => {
   const router = useRouter();
   const handStr = toSingleString(initialQueryParams.hand);
   const starterStr = toSingleString(initialQueryParams.s);
@@ -112,7 +112,7 @@ export const Calculator = ({ initialQueryParams }: CalculaterProps) => {
   return (
     <div className={classes.wrapper}>
       <HeaderSection
-        title="Hand Scorer / Calculator"
+        title="Hand Calculator"
         description="Score your 4-card hand and starter."
         label="Select Your Hand (4 cards):"
         onRandom={handleRandomHand}

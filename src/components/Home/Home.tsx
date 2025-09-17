@@ -16,16 +16,16 @@ export function Home() {
         <div className={classes.leftColumn}>
           <Stack mb={'lg'}>
             <Stack align="center">
-              <Title order={3}>Try These Cribbage Tools</Title>
+              <Title order={3}>Explore Our Cribbage Tools</Title>
               <Group >
-                <Button component={Link} href="/calculator" fullWidth>
-                  Calculator
+                <Button component={Link} href="/hand-calculator" fullWidth>
+                  Hand Calculator
                 </Button>
-                <Button component={Link} href="/hand-analyzer" fullWidth>
-                  Hand Analyzer
+                <Button component={Link} href="/hand-optimizer" fullWidth>
+                  Hand Optimizer
                 </Button>
-                <Button component={Link} href="/cut-card-insight" fullWidth>
-                  Cut Card Insights
+                <Button component={Link} href="/cut-probabilities" fullWidth>
+                  Cut Probabilities
                 </Button>
               </Group>
             </Stack>

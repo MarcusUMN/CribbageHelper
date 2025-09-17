@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Button, Stack, Title, Group, Table } from '@mantine/core';
 import { scoreHand, Card, getDeck, getRandomHand, validateHand } from '../../utils';
 import { CardSelector, FormatCard, HeaderSection } from '../Shared';
-import classes from './CutCardInsight.module.css';
+import classes from './CutProbabilities.module.css';
 
-export const CutCardInsight = () => {
+export const CutProbabilities = () => {
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null]);
   const [cutCardScores, setCutCardScores] = useState<{ starter: Card; score: number }[] | null>(null);
 
@@ -57,7 +57,7 @@ export const CutCardInsight = () => {
   return (
     <div className={classes.wrapper}>
       <HeaderSection
-        title="Cut Card Insight"
+        title="Cut Probabilities"
         description="Score your 4-card hand against every possible cut card to see your potential points."
         label="Select Your Hand (4 cards):"
         onRandom={handleRandomHand}

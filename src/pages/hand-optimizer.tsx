@@ -1,13 +1,13 @@
 import React from 'react';
 import { ParsedUrlQuery } from 'querystring';
-import { HandAnalyzer } from '../components/HandAnalyzer';
+import { HandOptimizer } from '../components/HandOptimizer';
 
-export type HandAnalyzerProps = {
+export type HandOptimizerProps = {
   initialQueryParams : ParsedUrlQuery;
 };
 
-export default function ({ initialQueryParams }: HandAnalyzerProps) {
-  return <HandAnalyzer initialQueryParams = {initialQueryParams}/>;
+export default function ({ initialQueryParams }: HandOptimizerProps) {
+  return <HandOptimizer initialQueryParams = {initialQueryParams}/>;
 }
 
 export async function getServerSideProps(context: { query: ParsedUrlQuery }) {

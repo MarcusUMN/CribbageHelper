@@ -1,10 +1,10 @@
 import React from 'react';
-import { CutCardInsight } from '../components/CutCardInsight';
+import { CutProbabilities } from '../components/CutProbabilities';
 
 export default function () {
   return (
     <React.Fragment>
-      <CutCardInsight />
+      <CutProbabilities />
     </React.Fragment>
   );
 }

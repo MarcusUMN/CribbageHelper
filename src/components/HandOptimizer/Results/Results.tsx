@@ -39,7 +39,7 @@ export const Results = ({ queryParams }: Props) => {
             {isMyCrib ? 'Your Crib' : "Opponent's Crib"}
           </Badge>
         </Group>
-        <Button onClick={() => router.push('/hand-analyzer')}>New hand</Button>
+        <Button onClick={() => router.push('/hand-optimizer')}>New hand</Button>
       </Group>
       <Group gap="xs" mb="md">
         {handKey

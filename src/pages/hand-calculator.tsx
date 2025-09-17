@@ -1,13 +1,13 @@
 import React from 'react';
 import { ParsedUrlQuery } from 'querystring';
-import { Calculator} from '../components/Calculator';
+import { HandCalculator } from '../components/HandCalculator';
 
-export type CalculaterProps = {
+export type HandCalculatorProps = {
   initialQueryParams : ParsedUrlQuery;
 };
 
-export default function ({ initialQueryParams }: CalculaterProps) {
-    return <Calculator initialQueryParams = {initialQueryParams}/>;
+export default function ({ initialQueryParams }: HandCalculatorProps) {
+    return <HandCalculator initialQueryParams = {initialQueryParams}/>;
 } 
 
 export async function getServerSideProps(context: { query: ParsedUrlQuery }) {

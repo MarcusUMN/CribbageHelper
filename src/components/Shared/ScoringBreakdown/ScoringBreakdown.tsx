@@ -46,7 +46,7 @@ export const ScoringBreakdown = ({ score, details, hand, starter, isCrib }: Scor
           style={{ border: '2px solid red' }}
         />
       </Group>
-      <Table striped withTableBorder>
+      <Table striped withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Points</Table.Th>
@@ -57,7 +57,7 @@ export const ScoringBreakdown = ({ score, details, hand, starter, isCrib }: Scor
         <Table.Tbody>
           {details.map((d, i) => (
             <Table.Tr key={i}>
-              <Table.Td><Text fw={600}>{d.points}</Text></Table.Td>
+              <Table.Td style={{ textAlign: 'center', fontWeight: 'bold' }}>{d.points}</Table.Td>
               <Table.Td>{d.type}</Table.Td>
               <Table.Td>
                 <Group gap="xs">

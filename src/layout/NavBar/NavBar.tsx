@@ -13,10 +13,11 @@ type NavItem =
 
 const data: NavItem[] = [
   { type: 'link', link: '/', label: 'Home', icon: IconHome },
-  { type: 'section', label: 'Tools' },
-  { type: 'link', link: '/calculator', label: 'Calculator', icon: IconCalculator },
-  { type: 'link', link: '/hand-analyzer', label: 'Hand Analyzer', icon: IconBrain },
-  { type: 'link', link: '/cut-card-insight', label: 'Cut Card Insight', icon: IconCut },
+  { type: 'section', label: 'Calculater' },
+  { type: 'link', link: '/hand-calculator', label: 'Hand Calculator', icon: IconCalculator },
+  { type: 'section', label: 'Probabilities / Analysis' },
+  { type: 'link', link: '/hand-optimizer', label: 'Hand Optimizer', icon: IconCut },
+  { type: 'link', link: '/cut-probabilities', label: 'Cut Probabilities', icon: IconCut },
   { type: 'section', label: 'Info' },
   { type: 'link', link: '/support', label: 'Support', icon: IconBrain },
 ];

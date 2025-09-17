@@ -4,11 +4,11 @@ import { ParsedUrlQuery } from 'querystring';
 import { Button, Stack, Switch } from '@mantine/core';
 import { CardSelector, HeaderSection } from '../Shared';
 import { Results } from './Results';
-import { HandAnalyzerProps } from '../../pages/hand-analyzer'
+import { HandOptimizerProps } from '../../pages/hand-optimizer'
 import { Card, getRandomHand, cardToString, getHandHash } from '../../utils';
-import classes from './HandAnalyzer.module.css';
+import classes from './HandOptimizer.module.css';
 
-export const HandAnalyzer = ({ initialQueryParams}: HandAnalyzerProps) => {
+export const HandOptimizer = ({ initialQueryParams}: HandOptimizerProps) => {
   const router = useRouter();
   const [queryParams, setQueryParams] = useState<ParsedUrlQuery | undefined>(initialQueryParams );
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null, null, null]);
@@ -59,8 +59,8 @@ export const HandAnalyzer = ({ initialQueryParams}: HandAnalyzerProps) => {
   return (
     <div className={classes.wrapper}>
       <HeaderSection
-        title="Hand Analyzer"
-        description="Analyze your 6 cards to find the best 4-card hand."
+        title="Hand Optimizer"
+        description="Analyze your 6-card hand and discover the optimal 4 cards to keep."
         label="Select Your Hand (6 cards):"
         onRandom={handleRandomHand}
       />
