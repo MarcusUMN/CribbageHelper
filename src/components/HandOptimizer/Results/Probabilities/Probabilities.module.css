@@ -1,0 +1,9 @@
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.cellBorderLeft {
+  border-left: 2px solid #dee2e6;
+}
+

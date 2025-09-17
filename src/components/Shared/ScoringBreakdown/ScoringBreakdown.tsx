@@ -1,10 +1,10 @@
 import { Table, Title, Group, Text } from '@mantine/core';
 import Image from 'next/image';
 import { ScoreDetail, cardToString, Card } from '../../../utils';
+import { ShareLinkButton } from '../ShareLinkButton';
 
 function getCardImageFilename(card: Card): string {
-  console.log('getCardImageFilename', cardToString(card));
-  return `/CribbageHelper/cards/${cardToString(card)}.svg`; 
+  return `/cards/${cardToString(card)}.svg`; 
 }
 
 export type ScoredResult = {
@@ -18,12 +18,15 @@ export type ScoredResult = {
 export const ScoringBreakdown = ({ score, details, hand, starter, isCrib }: ScoredResult) => {
   return (
     <div style={{ marginTop: 32 }}>
-      <Title order={3} mb="sm">
-        Total Score: {score}
-        <Text span size="sm" c="dimmed" ml="sm">
-          ({isCrib ? 'Crib' : 'Hand'})
-        </Text>
-      </Title>
+      <Group justify="space-between" align="center">
+        <Title order={3} mb="sm">
+          Total Score: {score}
+          <Text span size="sm" c="dimmed" ml="sm">
+            ({isCrib ? 'Crib' : 'Hand'})
+          </Text>
+        </Title>
+        <ShareLinkButton />
+      </Group>
       <Group gap="xs" mb="md" mt="md" >
         {hand.map((card, idx) => (
           <Image
@@ -43,7 +46,7 @@ export const ScoringBreakdown = ({ score, details, hand, starter, isCrib }: Scor
           style={{ border: '2px solid red' }}
         />
       </Group>
-      <Table striped highlightOnHover withTableBorder>
+      <Table striped withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Points</Table.Th>
@@ -54,7 +57,7 @@ export const ScoringBreakdown = ({ score, details, hand, starter, isCrib }: Scor
         <Table.Tbody>
           {details.map((d, i) => (
             <Table.Tr key={i}>
-              <Table.Td><Text fw={600}>{d.points}</Text></Table.Td>
+              <Table.Td style={{ textAlign: 'center', fontWeight: 'bold' }}>{d.points}</Table.Td>
               <Table.Td>{d.type}</Table.Td>
               <Table.Td>
                 <Group gap="xs">

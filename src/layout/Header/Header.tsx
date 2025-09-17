@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { Title } from '@mantine/core';
-import {IconCards } from '@tabler/icons-react';
+import { Title, Image } from '@mantine/core';
 import classes from './Header.module.css';
 
 interface HeaderProps {
@@ -9,11 +8,11 @@ interface HeaderProps {
 
 export const Header = ({ isMobile }: HeaderProps) => {
   return (
-    <header>
+    <header className={classes.header}>
         <Link href="/" passHref className={classes.link}>
-            <IconCards size={isMobile ? 24 : 32} stroke={1.5} color="#333333" />
-            <Title order={1} c="#333333" style={{ fontSize: isMobile ? 24 : 32, margin: 0 }}>
-                CRIBBAGE HELPER
+            <Image src="/ninja-logo.png" alt="Ninja logo" className={classes.image} />
+            <Title order={1} c="#333333" style={{ fontSize: isMobile ? 24 : 32 }}>
+                CRIBBAGE NINJA
             </Title>
         </Link>
     </header>

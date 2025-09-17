@@ -31,10 +31,24 @@
   color: #056672;
 }
 
+.sectionLabel {
+  margin: 1rem 0 0.5rem;
+  padding-left: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--mantine-color-dark-4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
 .groupBurgerHeader {
-  background-color: '#BFEFE3';
   padding: 1rem;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #8FCFC0; 
 }
 
 .pageWrapperMobile {
@@ -48,7 +62,6 @@
   background-color: var(--mantine-color-white);
   width: 100%;;
   padding: 20px;
-  min-height: calc(100vh - 125px);
 }
 
 .mainDesktop {
@@ -80,3 +93,15 @@
   background-color: #8FCFC0;
 }
 
+.wrapperMobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .wrapperMobile {
+    display: block;
+  }
+  .wrapperDesktop {
+    display: none;
+  }
+}

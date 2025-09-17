@@ -19,13 +19,3 @@
   border-left: 2px solid #dee2e6;
 }
 
-.highlightCell {
-  background-color: #d9f2ff;
-  font-weight: 700;
-  color: #0c5db8;
-}
-
-.tableWrapper {
-  overflow-x: auto;
-  max-width: 100%;
-}

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Home } from '../components/Home';
+import { CutProbabilities } from '../components/CutProbabilities';
 
 export default function () {
   return (
     <React.Fragment>
-      <Home />
+      <CutProbabilities />
     </React.Fragment>
   );
 }

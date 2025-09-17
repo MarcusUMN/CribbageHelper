@@ -1,10 +1,10 @@
 import React from 'react';
-import { Home } from '../components/Home';
+import { Support } from '../components/Support';
 
 export default function () {
   return (
     <React.Fragment>
-      <Home />
+      <Support />
     </React.Fragment>
   );
 }
