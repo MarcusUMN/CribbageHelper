@@ -22,6 +22,7 @@ import {
   ScoringBreakdown,
   ScoredResult,
   HeaderSection,
+  errorLogic
 } from '../Shared';
 import classes from './HandCalculator.module.css';
 
@@ -79,24 +80,17 @@ export const HandCalculator = ({ initialQueryParams }: HandCalculatorProps) => {
   };
 
   const handleSubmit = () => {
-    if (!starter || hand.some((c) => c === null)) {
-      alert('Please select all cards / suits');
-      return;
-    }
-    if (!validateHand(hand as Card[], starter)) {
-      alert('Invalid hand - duplicate cards detected or wrong number');
-      return;
-    }
-    const result = scoreHand(hand as Card[], starter, isCrib);
+    if (!errorLogic.validateHand(hand, { starter: starter })) return;
+    const result = scoreHand(hand as Card[], starter as Card, isCrib);
     setScoredResult({
       score: result.total,
       details: result.details,
       hand: hand as Card[],
-      starter,
+      starter: starter as Card,
       isCrib,
     });
     const handStr = getHandHash(hand as Card[]);
-    const starterStr = getHandHash([starter]);
+    const starterStr = getHandHash([starter as Card]);
     const cribFlag = isCrib ? 'Y' : 'N';
 
     router.replace(
@@ -154,7 +148,7 @@ export const HandCalculator = ({ initialQueryParams }: HandCalculatorProps) => {
           </Popover>
         </div>
       </Stack>
-      <Button onClick={handleSubmit} mt="sm" fullWidth>
+      <Button onClick={handleSubmit} mt="sm" fullWidth >
         Score Hand
       </Button>
       {scoredResult && (

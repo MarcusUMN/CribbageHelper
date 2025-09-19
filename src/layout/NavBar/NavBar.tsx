@@ -15,6 +15,7 @@ const data: NavItem[] = [
   { type: 'link', link: '/', label: 'Home', icon: IconHome },
   { type: 'section', label: 'Calculater' },
   { type: 'link', link: '/hand-calculator', label: 'Hand Calculator', icon: IconCalculator },
+  { type: 'link', link: '/pegging-calculator', label: 'Pegging Calculator', icon: IconCalculator },
   { type: 'section', label: 'Probabilities / Analysis' },
   { type: 'link', link: '/hand-optimizer', label: 'Hand Optimizer', icon: IconCut },
   { type: 'link', link: '/cut-probabilities', label: 'Cut Probabilities', icon: IconCut },

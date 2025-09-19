@@ -1,11 +1,8 @@
-import { Select, Stack, ActionIcon, Group, Tooltip } from '@mantine/core';
+import { Select, Stack, ActionIcon, Group, Tooltip, Grid } from '@mantine/core';
 import { IconSpadeFilled, IconHeartFilled, IconDiamondFilled, IconClubsFilled } from '@tabler/icons-react';
 import { Card, Rank, RANKS, Suit } from '../../../utils';
 
-const rankOptions: { value: Rank; label: string }[] = RANKS.map((r) => ({
-  value: r,
-  label: r,
-}));
+const rankOptions: { value: Rank; label: string }[] = RANKS.map((r) => ({ value: r, label: r }));
 
 const suitOptions = [
   { value: 'H', label: 'Hearts', icon: <IconHeartFilled size={14} /> },
@@ -17,47 +14,83 @@ const suitOptions = [
 type Props = {
   value: Card | null;
   onChange: (card: Card | null) => void;
+  variant?: 'row' | 'grid';
+  cardNumber?: number;
 };
 
-export const CardSelector = ({ value, onChange }: Props) => {
- const handleRankChange = (rank: string | null) => {
+export const CardSelector = ({ value, onChange, variant = 'row', cardNumber }: Props) => {
+  const handleRankChange = (rank: string | null) => {
     if (!rank) return onChange(null);
     const castRank = rank as Rank;
-    if (value?.suit) onChange({ rank: castRank, suit: value.suit });
-    else onChange({ rank: castRank, suit: 'S' }); 
+    onChange({ rank: castRank, suit: value?.suit ?? 'S' });
   };
 
   const handleSuitChange = (suit: string) => {
     const castSuit = suit as Suit;
-    if (value?.rank) onChange({ rank: value.rank, suit: castSuit });
-    else onChange({ rank: 'A', suit: castSuit });
+    onChange({ rank: value?.rank ?? 'A', suit: castSuit });
   };
 
   return (
     <Stack gap="xs">
-      <Group align="flex-end">
-        <Select
-          data={rankOptions}
-          value={value?.rank ?? null}
-          onChange={handleRankChange}
-          style={{ width: 80 }}
-        />
-        <Group>
-          {suitOptions.map(({ value: val, label, icon }) => (
-            <Tooltip key={val} label={label} withArrow>
-              <ActionIcon
-                variant={value?.suit === val ? 'filled' : 'outline'}
-                color={val === 'H' || val === 'D' ? 'red' : 'black'}
-                onClick={() => handleSuitChange(val)}
-                size="lg"
-                aria-label={label}
-              >
-                {icon}
-              </ActionIcon>
-            </Tooltip>
-          ))}
+      {variant === 'row' ? (
+        <Group align="flex-end">
+          <Select
+            data={rankOptions}
+            value={value?.rank ?? null}
+            onChange={handleRankChange}
+            style={{ width: 80 }}
+          />
+          <Group>
+            {suitOptions.map(({ value: val, label, icon }) => (
+              <Tooltip key={val} label={label} withArrow>
+                <ActionIcon
+                  variant={value?.suit === val ? 'filled' : 'outline'}
+                  color={val === 'H' || val === 'D' ? 'red' : 'black'}
+                  onClick={() => handleSuitChange(val)}
+                  size="lg"
+                  aria-label={label}
+                >
+                  {icon}
+                </ActionIcon>
+              </Tooltip>
+            ))}
+          </Group>
         </Group>
-      </Group>
+      ) : (
+        <Group align="flex-start" style={{ alignItems: 'flex-end' }}>
+          <Select
+            label={`Card #${cardNumber! + 1}`}
+            data={rankOptions}
+            value={value?.rank ?? null}
+            onChange={handleRankChange}
+            styles={{
+              label: {
+                textAlign: 'center',
+                width: '100%',
+                transform: 'translateY(-10px)',
+              },
+            }}
+            style={{ width: 80 }}
+          />
+         <Grid style={{ width: 70 }} gutter={4}>
+            {suitOptions.map(({ value: val, label, icon }, idx) => (
+              <Grid.Col span={6} key={val}>
+                <Tooltip label={label} withArrow>
+                  <ActionIcon
+                    variant={value?.suit === val ? 'filled' : 'outline'}
+                    color={val === 'H' || val === 'D' ? 'red' : 'black'}
+                    onClick={() => handleSuitChange(val)}
+                    size="lg"
+                    aria-label={label}
+                  >
+                    {icon}
+                  </ActionIcon>
+                </Tooltip>
+              </Grid.Col>
+            ))}
+          </Grid>
+        </Group>
+      )}
     </Stack>
   );
 };

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { Button, Stack, Switch } from '@mantine/core';
-import { CardSelector, HeaderSection } from '../Shared';
+import { CardSelector, HeaderSection, errorLogic } from '../Shared';
 import { Results } from './Results';
 import { HandOptimizerProps } from '../../pages/hand-optimizer'
-import { Card, getRandomHand, cardToString, getHandHash } from '../../utils';
+import { Card, getRandomHand, getHandHash } from '../../utils';
 import classes from './HandOptimizer.module.css';
 
 export const HandOptimizer = ({ initialQueryParams}: HandOptimizerProps) => {
@@ -21,17 +21,7 @@ export const HandOptimizer = ({ initialQueryParams}: HandOptimizerProps) => {
   };
 
   const handleCalculate = () => {
-    if (hand.some(c => !c)) {
-      alert('Please select all 6 cards');
-      return;
-    }
-
-    const nonNullCards = hand.filter((c): c is Card => c !== null);
-    const uniqueKeys = new Set(nonNullCards.map(cardToString));
-    if (uniqueKeys.size < hand.length) {
-      alert('Duplicate cards detected. Please ensure all 6 cards are unique.');
-      return;
-    }
+    if (!errorLogic.validateHand(hand)) return;
     
     const handHash = getHandHash(hand as Card[]);
     router.push({

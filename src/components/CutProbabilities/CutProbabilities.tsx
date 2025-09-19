@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Stack, Title, Group, Table } from '@mantine/core';
-import { scoreHand, Card, getDeck, getRandomHand, validateHand } from '../../utils';
-import { CardSelector, FormatCard, HeaderSection } from '../Shared';
+import { scoreHand, Card, getDeck, getRandomHand } from '../../utils';
+import { CardSelector, FormatCard, HeaderSection, errorLogic } from '../Shared';
 import classes from './CutProbabilities.module.css';
 
 export const CutProbabilities = () => {
@@ -22,15 +22,7 @@ export const CutProbabilities = () => {
   };
 
   const handleAnalyzeCutCards = () => {
-    if (hand.some((c) => c === null)) {
-      alert('Please select all 4 cards first.');
-      return;
-    }
-
-    if (!validateHand(hand as Card[])) {
-      alert('Invalid hand - duplicate cards detected or wrong number');
-      return;
-    }
+    if (!errorLogic.validateHand(hand)) return;
 
     const handCards = hand as Card[];
     const handSet = new Set(handCards.map((c) => c.rank + c.suit));

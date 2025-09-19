@@ -1,0 +1,14 @@
+.wrapper {
+  margin: 2rem auto;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.p1 {
+  background-color: #e0f7fa;
+}
+
+.p2 {
+  background-color: #fce4ec;
+}

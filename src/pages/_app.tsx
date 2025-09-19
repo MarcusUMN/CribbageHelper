@@ -4,8 +4,11 @@ import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import { theme } from '../../theme';
 import { AppLayout } from '../layout/AppLayout';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -19,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
       <AppLayout>
+        <Notifications zIndex= {9999}  position='top-center'/>
         <Component {...pageProps} />
         <Analytics />
         <SpeedInsights />

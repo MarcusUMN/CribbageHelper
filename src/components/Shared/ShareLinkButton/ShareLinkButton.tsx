@@ -31,7 +31,7 @@ export const ShareLinkButton = ({
   };
 
   if (!isClient) return null;
-  console.log("url",url)
+
   return canShare ? (
     <Button
       size="sm"

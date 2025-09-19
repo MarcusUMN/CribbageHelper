@@ -5,3 +5,4 @@ export { getDeck, cardToString, getRandomHand, getRemainingDeck, RANKS, SUITS } 
 export type { Card, Suit, Rank, } from './deck';
 export { getPrimeRankHash, getHandHash, parseHandString} from './handHelpers';
 export { evaluateSixCardHand } from './evaluateSixCardHand'
+export { calculatePeggingSequenceFromHands, generateLegalPeggingHands, getPegValue  } from './pegging'

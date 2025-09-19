@@ -7,9 +7,10 @@ type HeaderSectionProps = {
   description?: string;
   label?: string;
   onRandom?: () => void;
+  randomButtonLabel?: string;
 };
 
-export const HeaderSection = ({ title, description, label, onRandom }: HeaderSectionProps) => {
+export const HeaderSection = ({ title, description, label, onRandom, randomButtonLabel = 'Random Hand' }: HeaderSectionProps) => {
   return (
     <React.Fragment>
       <Title order={2}>{title}</Title>
@@ -22,7 +23,7 @@ export const HeaderSection = ({ title, description, label, onRandom }: HeaderSec
         {label && <Text fw={500}>{label}</Text>}
         {onRandom && (
           <Button onClick={onRandom} rightSection={<IconDice4Filled size={14} />}>
-            Random Hand
+           {randomButtonLabel}
           </Button>
         )}
       </Group>
