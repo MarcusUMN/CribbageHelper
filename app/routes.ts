@@ -1,0 +1,15 @@
+import { index, route, layout } from "@react-router/dev/routes";
+
+const routeFile = (folder: string) => `routes/${folder}/route.tsx`;
+
+export default [
+  layout("layout/PageLayout/PageLayout.tsx", [
+    index(routeFile("home")),
+    route("hand-calculator", routeFile("hand-calculator")),
+    route("pegging-calculator", routeFile("pegging-calculator")),
+    route("hand-optimizer", routeFile("hand-optimizer")),
+    route("cut-probabilities", routeFile("cut-probabilities")),
+    route("support", routeFile("support")),
+    route("*", routeFile("support")),
+  ]),
+];

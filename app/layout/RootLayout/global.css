@@ -1,0 +1,6 @@
+/* Apply primarySidebar to header, aside, nav */
+header,
+aside,
+nav {
+  background-color: var(--mantine-color-primarySidebar-0) !important;
+}

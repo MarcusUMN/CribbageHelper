@@ -1,0 +1,47 @@
+/* Links */
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  color: var(--mantine-color-linkText-0); /* soft cream */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.05),
+    rgba(255, 255, 255, 0.05)
+  ); /* subtle depth for resting state */
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.link:hover {
+  background: linear-gradient(
+    135deg,
+    var(--mantine-color-accent-0),
+    #2ecc71
+  ); /* bright green gradient */
+  color: #fff; /* white text on hover */
+  transform: translateX(4px); /* subtle movement */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Active link */
+.link[data-active] {
+  background: var(--mantine-color-active-0); /* golden highlight */
+  color: var(--mantine-color-sidebarBg-0); /* dark green text for contrast */
+  font-weight: 600;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: var(--mantine-color-sectionText-0);
+}
+.iconActive {
+  width: 24px;
+  height: 24px;
+}

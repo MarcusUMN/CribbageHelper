@@ -1,4 +1,4 @@
-A minimal web app built with Next.js, React, and Mantine.
+A minimal web app built with React Router, React, and Mantine.
 
 ### Install & Run
 
@@ -8,3 +8,4 @@ npm install
 
 # Start the local dev server
 npm run dev
+```

@@ -1,4 +1,9 @@
-import { scoreHandIgnoringFlushAndNobs, combinations, getPrimeRankHash, getDeck } from '../../src/utils';
+import {
+  scoreHandIgnoringFlushAndNobs,
+  combinations,
+  getPrimeRankHash,
+  getDeck,
+} from "../../app/cribbage";
 
 export function generateBaseScores() {
   const baseScoreMap: Record<string, number> = {};
