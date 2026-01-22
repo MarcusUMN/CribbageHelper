@@ -1,5 +1,6 @@
 import { isRouteErrorResponse } from "react-router";
 
+// To DO: Enable ErrorBoundary
 export const ErrorBoundary = ({ error }: { error: unknown }) => {
   let message = "Oops!";
   let details = "An unexpected error occurred.";

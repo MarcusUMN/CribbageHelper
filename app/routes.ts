@@ -10,6 +10,5 @@ export default [
     route("hand-optimizer", routeFile("hand-optimizer")),
     route("cut-probabilities", routeFile("cut-probabilities")),
     route("support", routeFile("support")),
-    route("*", routeFile("support")),
   ]),
 ];

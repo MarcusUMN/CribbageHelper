@@ -1,9 +1,6 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
-import {
-  ColorSchemeScript,
-  MantineProvider,
-  mantineHtmlProps,
-} from "@mantine/core";
+import { MantineProvider, mantineHtmlProps } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { theme } from "../../theme";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
@@ -15,12 +12,12 @@ export const RootLayout = () => {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <ColorSchemeScript />
         <Meta />
         <Links />
       </head>
       <body>
-        <MantineProvider theme={theme}>
+        <MantineProvider forceColorScheme="light" theme={theme}>
+          <Notifications zIndex={9999} position="top-center" />
           <Outlet />
         </MantineProvider>
         <ScrollRestoration />
