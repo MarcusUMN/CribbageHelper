@@ -1,6 +1,7 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { MantineProvider, mantineHtmlProps } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import { Analytics } from "@vercel/analytics/react";
 import { theme } from "../../theme";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
@@ -20,6 +21,7 @@ export const RootLayout = () => {
           <Notifications zIndex={9999} position="top-center" />
           <Outlet />
         </MantineProvider>
+        <Analytics />
         <ScrollRestoration />
         <Scripts />
       </body>
