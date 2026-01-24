@@ -1,7 +1,7 @@
 {
   "name": "cribbage-helper",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "private": true,
   "scripts": {
     "build": "react-router build",
