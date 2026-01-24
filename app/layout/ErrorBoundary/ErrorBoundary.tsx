@@ -1,30 +1,16 @@
-import { isRouteErrorResponse } from "react-router";
+import { Button, Container, Title, Text, Stack } from "@mantine/core";
+import { Link } from "react-router";
 
-export const ErrorBoundary = ({ error }: { error: unknown }) => {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
-
+export const ErrorBoundary = () => {
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <Container size="sm" pt="xl" style={{ textAlign: "center" }}>
+      <Stack gap="md">
+        <Title order={1}>Oops!</Title>
+        <Text size="lg">The page you are looking for no longer exists.</Text>
+        <Button component={Link} to="/" variant="filled" color="teal">
+          Go Home
+        </Button>
+      </Stack>
+    </Container>
   );
 };
