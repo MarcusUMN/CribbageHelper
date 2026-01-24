@@ -52,31 +52,30 @@ export const CardSelector = ({
             data={rankOptions}
             value={value?.rank ?? null}
             onChange={handleRankChange}
-            style={{ width: 80 }}
+            w={80}
           />
-          <Group>
-            {suitOptions.map(({ value: val, label, icon }) => (
-              <Tooltip key={val} label={label} withArrow>
-                <ActionIcon
-                  variant={value?.suit === val ? "filled" : "outline"}
-                  color={val === "H" || val === "D" ? "red" : "black"}
-                  onClick={() => handleSuitChange(val)}
-                  size="lg"
-                  aria-label={label}
-                >
-                  {icon}
-                </ActionIcon>
-              </Tooltip>
-            ))}
-          </Group>
+          {suitOptions.map(({ value: val, label, icon }) => (
+            <Tooltip key={val} label={label} withArrow>
+              <ActionIcon
+                variant={value?.suit === val ? "filled" : "outline"}
+                color={val === "H" || val === "D" ? "red" : "black"}
+                onClick={() => handleSuitChange(val)}
+                size="lg"
+                aria-label={label}
+              >
+                {icon}
+              </ActionIcon>
+            </Tooltip>
+          ))}
         </Group>
       ) : (
-        <Group align="flex-start" style={{ alignItems: "flex-end" }}>
+        <Group gap="xs" align="flex-end">
           <Select
             {...(label ? { label } : {})}
             data={rankOptions}
             value={value?.rank ?? null}
             onChange={handleRankChange}
+            w={80}
             styles={{
               label: {
                 textAlign: "center",
@@ -84,7 +83,6 @@ export const CardSelector = ({
                 transform: "translateY(-10px)",
               },
             }}
-            style={{ width: 80 }}
           />
           <Grid style={{ width: 70 }} gutter={4}>
             {suitOptions.map(({ value: val, label, icon }, idx) => (

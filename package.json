@@ -1,14 +1,13 @@
 {
   "name": "cribbage-helper",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "private": true,
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc",
-    "precompute-base-score": "ts-node scripts/precomputeBaseScore/main.ts"
+    "generate-base-score-cache": "ts-node scripts/generateBaseScoreCache/main.ts"
   },
   "dependencies": {
     "@mantine/core": "^8.3.1",

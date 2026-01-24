@@ -49,15 +49,11 @@ export const Home = () => {
               </Button>
 
               <Stack gap="sm" align="center" mt="md">
-                <Title order={4} ta="center">
-                  Features
-                </Title>
+                <Title order={4}>Features</Title>
                 <Grid gutter="sm">
                   {features.map((feature, idx) => (
                     <Grid.Col key={idx} span={{ base: 12, sm: 6 }}>
-                      <Text size="md" ta="center">
-                        ✔ {feature}
-                      </Text>
+                      <Text size="md">✔ {feature}</Text>
                     </Grid.Col>
                   ))}
                 </Grid>

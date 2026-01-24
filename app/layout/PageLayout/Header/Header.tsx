@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { Title, Image, Burger, Group, ActionIcon } from "@mantine/core";
-import { IconHeart } from "@tabler/icons-react";
+import { IconHeartFilled } from "@tabler/icons-react";
 
 interface HeaderProps {
   drawerOpened: boolean;
@@ -15,9 +15,11 @@ export const Header = ({ drawerOpened, toggleDrawer }: HeaderProps) => {
       h="100%"
       w="100%"
       wrap="nowrap"
-      pl="xs"
-      gap="xs"
+      ml="xs"
       style={{
+        paddingInlineStart: `calc(
+    (var(--app-shell-navbar-offset, 0rem) + var(--app-shell-padding)) - 250px
+  )`,
         paddingInlineEnd:
           "calc(var(--app-shell-aside-offset, 0rem) + var(--app-shell-padding))",
       }}
@@ -29,15 +31,14 @@ export const Header = ({ drawerOpened, toggleDrawer }: HeaderProps) => {
         hiddenFrom="sm"
         color="white"
       />
-      <Group justify="space-between" flex={1} wrap="nowrap">
+      <Group justify="space-between" flex={1} wrap="nowrap" pr="xs">
         <Link
           to="/"
           style={{
             textDecoration: "none",
             display: "flex",
-            paddingLeft: "0.5rem",
             alignItems: "center",
-            gap: "0.5rem",
+            gap: "xs",
           }}
         >
           <Image
@@ -47,18 +48,17 @@ export const Header = ({ drawerOpened, toggleDrawer }: HeaderProps) => {
             w="auto"
             fit="contain"
           />
-          <Title order={1} c="white" visibleFrom="xs" lh={1}>
+          <Title order={1} c="black" visibleFrom="xs" lh={1}>
             CRIBBAGE NINJA
           </Title>
         </Link>
         <ActionIcon
-          color="red"
           size="lg"
-          variant="filled"
+          variant="default"
           aria-label="Support"
           onClick={() => navigate("/support")}
         >
-          <IconHeart size={20} />
+          <IconHeartFilled size={20} fill="#1D3757" />
         </ActionIcon>
       </Group>
     </Group>

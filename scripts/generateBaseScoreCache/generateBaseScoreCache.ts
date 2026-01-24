@@ -5,7 +5,7 @@ import {
   getDeck,
 } from "../../app/cribbage";
 
-export function generateBaseScores() {
+export function generateBaseScoreCache() {
   const baseScoreMap: Record<string, number> = {};
   const seenHashes = new Set<string>();
 

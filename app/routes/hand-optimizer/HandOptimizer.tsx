@@ -64,16 +64,14 @@ export const HandOptimizer = () => {
       headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
       <Stack gap="xs">
-        <Group gap="lg" align="flex-start" justify="center">
-          {hand.map((card, idx) => (
-            <CardSelector
-              label={`Card #${idx + 1}`}
-              key={idx}
-              value={card}
-              onChange={(c) => handleChange(idx, c)}
-            />
-          ))}
-        </Group>
+        {hand.map((card, idx) => (
+          <CardSelector
+            label={`Card #${idx + 1}`}
+            key={idx}
+            value={card}
+            onChange={(c) => handleChange(idx, c)}
+          />
+        ))}
       </Stack>
       <Switch
         label="My Crib"

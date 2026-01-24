@@ -16,7 +16,9 @@ export const PageLayout = () => {
   return (
     <AppShell
       padding="md"
-      header={{ height: 60 }}
+      header={{
+        height: { base: 60, md: 100 },
+      }}
       withBorder={false}
       navbar={{
         width: {
@@ -39,7 +41,14 @@ export const PageLayout = () => {
         <Header drawerOpened={opened} toggleDrawer={toggle} />
       </AppShell.Header>
 
-      <AppShell.Navbar {...(isMobile ? { w: 200 } : {})}>
+      <AppShell.Navbar
+        {...(isMobile ? { w: 200 } : {})}
+        style={{
+          paddingInlineStart: `calc(
+    (var(--app-shell-navbar-offset, 0rem) + var(--app-shell-padding)) - 250px
+  )`,
+        }}
+      >
         <NavBar drawerOpened={opened} onLinkClick={close} />
       </AppShell.Navbar>
 

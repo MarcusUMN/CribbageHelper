@@ -10,7 +10,6 @@ import {
   calculatePeggingSequenceFromHands,
   generateLegalPeggingHands,
 } from "../../cribbage";
-import classes from "./PeggingCalculator.module.css";
 
 export const PeggingCalculator = () => {
   const [starter, setStarter] = useState<"P1" | "P2">("P1");
@@ -91,7 +90,7 @@ export const PeggingCalculator = () => {
       />
       <Group align="flex-start" grow>
         <Stack>
-          <Title order={5} ta="center" className={classes.p1}>
+          <Title order={5} ta="center" bg="var(--mantine-color-appCyanLight-0)">
             Player 1
           </Title>
           <Group>
@@ -107,7 +106,7 @@ export const PeggingCalculator = () => {
           </Group>
         </Stack>
         <Stack>
-          <Title order={5} ta="center" className={classes.p2}>
+          <Title order={5} ta="center" bg="var(--mantine-color-appPinkLight-0)">
             Player 2
           </Title>
           <Group>
@@ -147,7 +146,11 @@ export const PeggingCalculator = () => {
               {results.map((play, i) => (
                 <Table.Tr
                   key={i}
-                  className={play.player === "P1" ? classes.p1 : classes.p2}
+                  bg={
+                    play.player === "P1"
+                      ? "var(--mantine-color-appCyanLight-0)"
+                      : "var(--mantine-color-appPinkLight-0)"
+                  }
                 >
                   <Table.Td>{play.player}</Table.Td>
                   <Table.Td>

@@ -1,11 +1,15 @@
-import { createTheme, colorsTuple } from "@mantine/core";
+import { createTheme } from "@mantine/core";
+
+const solid = (hex: string) =>
+  [hex, hex, hex, hex, hex, hex, hex, hex, hex, hex] as const;
 
 export const theme = createTheme({
   colors: {
-    primarySidebar: colorsTuple("#064635"),
-    accent: colorsTuple("#26a69a"),
-    active: colorsTuple("#a7f0ba"),
-    sectionText: colorsTuple("#a7f0ba"),
-    linkText: colorsTuple("#e0f2f1"),
+    appDeepTeal: solid("#053f3f"),
+    appSoftWhite: solid("#ffffff"),
+    appTealBlue: solid("#056672"),
+    appMintTeal: solid("#8FCFC0"),
+    appCyanLight: solid("#e0f7fa"),
+    appPinkLight: solid("#fce4ec"),
   },
 });

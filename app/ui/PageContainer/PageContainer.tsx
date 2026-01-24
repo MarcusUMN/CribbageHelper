@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { Group, Text, Title } from "@mantine/core";
-import classes from "./PageContainer.module.css";
+import { Group, Text, Title, Box } from "@mantine/core";
 
 type PageContainerProps = {
   title: string;
@@ -8,6 +7,7 @@ type PageContainerProps = {
   label?: string;
   headerRight?: ReactNode;
   children: ReactNode;
+  maxPageWidth?: string;
 };
 
 export const PageContainer = ({
@@ -16,9 +16,10 @@ export const PageContainer = ({
   label,
   headerRight,
   children,
+  maxPageWidth = "400px",
 }: PageContainerProps) => {
   return (
-    <div className={classes.wrapper}>
+    <Box pb="16px" maw={maxPageWidth} m="2rem auto">
       <Title order={2}>{title}</Title>
 
       {description && (
@@ -35,6 +36,6 @@ export const PageContainer = ({
       )}
 
       {children}
-    </div>
+    </Box>
   );
 };

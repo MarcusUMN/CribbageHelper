@@ -64,16 +64,14 @@ export const CutProbabilities = () => {
       headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
       <Stack gap="xs">
-        <Group gap="lg" align="flex-start" justify="center">
-          {hand.map((card, idx) => (
-            <CardSelector
-              label={`Card #${idx + 1}`}
-              key={idx}
-              value={card}
-              onChange={(c) => handleCardChange(idx, c)}
-            />
-          ))}
-        </Group>
+        {hand.map((card, idx) => (
+          <CardSelector
+            label={`Card #${idx + 1}`}
+            key={idx}
+            value={card}
+            onChange={(c) => handleCardChange(idx, c)}
+          />
+        ))}
         <Button onClick={handleAnalyzeCutCards} mt="sm" fullWidth>
           Analyze Cut Cards
         </Button>
@@ -91,7 +89,6 @@ export const CutProbabilities = () => {
                 <Table.Th style={{ width: 80, textAlign: "right" }}>
                   Probability
                 </Table.Th>{" "}
-                {/* New column */}
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>

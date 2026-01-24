@@ -97,24 +97,22 @@ export const HandCalculator = () => {
       headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
       <Stack gap="xs">
-        <Group gap="lg" align="flex-start" justify="center">
-          {hand.map((card, idx) => (
-            <CardSelector
-              label={`Card #${idx + 1}`}
-              key={idx}
-              value={card}
-              onChange={(c) => handleCardChange(idx, c)}
-            />
-          ))}
+        {hand.map((card, idx) => (
           <CardSelector
-            label="Cut Card"
-            value={starter}
-            onChange={(card) => {
-              setStarter(card);
-              setScoredResult(null);
-            }}
+            label={`Card #${idx + 1}`}
+            key={idx}
+            value={card}
+            onChange={(c) => handleCardChange(idx, c)}
           />
-        </Group>
+        ))}
+        <CardSelector
+          label="Cut Card"
+          value={starter}
+          onChange={(card) => {
+            setStarter(card);
+            setScoredResult(null);
+          }}
+        />
         <Group gap={0}>
           <Popover width={200} position="bottom" withArrow shadow="md">
             <Switch
