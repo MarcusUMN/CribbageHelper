@@ -16,6 +16,12 @@ import { PageContainer } from "../../ui/PageContainer";
 import { RandomGeneratorButton } from "../../ui/RandomGeneratorButton";
 import { errorLogic } from "../../ui/ErrorNotifications";
 
+type HandScoreInputs = {
+  hand: string;
+  starter: string;
+  isCrib: boolean;
+};
+
 export const HandCalculator = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const handStr = searchParams.get("hand") ?? "";
@@ -29,14 +35,18 @@ export const HandCalculator = () => {
   const initialStarter = parsedStarter.length === 1 ? parsedStarter[0] : null;
   const initialIsCrib = cribStr.toUpperCase() === "Y";
 
-  const [hand, setHand] = React.useState<(Card | null)[]>(initialHand);
-  const [starter, setStarter] = React.useState<Card | null>(initialStarter);
-  const [isCrib, setIsCrib] = React.useState(initialIsCrib);
+  const [hand, setHand] = useState<(Card | null)[]>(initialHand);
+  const [starter, setStarter] = useState<Card | null>(initialStarter);
+  const [isCrib, setIsCrib] = useState(initialIsCrib);
+  const [lastCalculated, setLastCalculated] = useState<HandScoreInputs | null>(
+    null,
+  );
+
   const [scoredResult, setScoredResult] = useState<ScoredResult | null>(() => {
     if (
       initialHand.length === 4 &&
       initialHand.every(Boolean) &&
-      initialStarter !== null &&
+      initialStarter &&
       validateHand(initialHand as Card[], initialStarter)
     ) {
       const result = scoreHand(
@@ -44,6 +54,15 @@ export const HandCalculator = () => {
         initialStarter,
         initialIsCrib,
       );
+
+      const inputs = {
+        hand: getHandHash(initialHand as Card[]),
+        starter: getHandHash([initialStarter]),
+        isCrib: initialIsCrib,
+      };
+
+      setLastCalculated(inputs);
+
       return {
         score: result.total,
         details: result.details,
@@ -55,38 +74,78 @@ export const HandCalculator = () => {
     return null;
   });
 
+  const currentInputs: HandScoreInputs | null =
+    hand.every(Boolean) && starter
+      ? {
+          hand: getHandHash(hand as Card[]),
+          starter: getHandHash([starter]),
+          isCrib,
+        }
+      : null;
+
+  const isStale =
+    !scoredResult ||
+    !currentInputs ||
+    !lastCalculated ||
+    lastCalculated.hand !== currentInputs.hand ||
+    lastCalculated.starter !== currentInputs.starter ||
+    lastCalculated.isCrib !== currentInputs.isCrib;
+
   const handleCardChange = (index: number, card: Card | null) => {
     const newHand = [...hand];
     newHand[index] = card;
     setHand(newHand);
-    setScoredResult(null);
+  };
+
+  const calculateHand = (
+    handToScore: (Card | null)[],
+    starterToScore: Card | null,
+    isCribFlag: boolean,
+  ) => {
+    if (!errorLogic.validateHand(handToScore, { starter: starterToScore }))
+      return;
+
+    const result = scoreHand(
+      handToScore as Card[],
+      starterToScore as Card,
+      isCribFlag,
+    );
+
+    const inputs = {
+      hand: getHandHash(handToScore as Card[]),
+      starter: getHandHash([starterToScore as Card]),
+      isCrib: isCribFlag,
+    };
+
+    setScoredResult({
+      score: result.total,
+      details: result.details,
+      hand: handToScore as Card[],
+      starter: starterToScore as Card,
+      isCrib: isCribFlag,
+    });
+
+    setLastCalculated(inputs);
+
+    setSearchParams(
+      { hand: inputs.hand, s: inputs.starter, c: isCribFlag ? "Y" : "N" },
+      { replace: true, preventScrollReset: true },
+    );
   };
 
   const handleRandomHand = () => {
     const newHand = getRandomHand(5);
-    setHand(newHand.slice(0, 4));
-    setStarter(newHand[4] || null);
-    setScoredResult(null);
+    const handCards = newHand.slice(0, 4);
+    const starterCard = newHand[4] || null;
+
+    setHand(handCards);
+    setStarter(starterCard);
+
+    calculateHand(handCards, starterCard, isCrib);
   };
 
-  const handleSubmit = () => {
-    if (!errorLogic.validateHand(hand, { starter: starter })) return;
-    const result = scoreHand(hand as Card[], starter as Card, isCrib);
-    setScoredResult({
-      score: result.total,
-      details: result.details,
-      hand: hand as Card[],
-      starter: starter as Card,
-      isCrib,
-    });
-    const handStr = getHandHash(hand as Card[]);
-    const starterStr = getHandHash([starter as Card]);
-    const cribFlag = isCrib ? "Y" : "N";
-
-    setSearchParams(
-      { hand: handStr, s: starterStr, c: cribFlag },
-      { replace: true },
-    );
+  const handleScoreClick = () => {
+    calculateHand(hand, starter, isCrib);
   };
 
   return (
@@ -99,20 +158,21 @@ export const HandCalculator = () => {
       <Stack gap="xs">
         {hand.map((card, idx) => (
           <CardSelector
-            label={`Card #${idx + 1}`}
             key={idx}
+            label={`Card #${idx + 1}`}
             value={card}
             onChange={(c) => handleCardChange(idx, c)}
           />
         ))}
+
         <CardSelector
           label="Cut Card"
           value={starter}
           onChange={(card) => {
             setStarter(card);
-            setScoredResult(null);
           }}
         />
+
         <Group gap={0}>
           <Popover width={200} position="bottom" withArrow shadow="md">
             <Switch
@@ -134,9 +194,21 @@ export const HandCalculator = () => {
           </Popover>
         </Group>
       </Stack>
-      <Button onClick={handleSubmit} mt="sm" fullWidth>
-        Score Hand
+
+      <Button onClick={handleScoreClick} mt="sm" fullWidth disabled={!isStale}>
+        {!isStale ? "Score is up to date" : "Score Hand"}
       </Button>
+
+      {scoredResult && isStale && (
+        <Text size="xs" c="dimmed" mt="sm">
+          Previous results are shown. Press{" "}
+          <Text c="black" component="span" fw={700}>
+            Score Hand
+          </Text>{" "}
+          to update.
+        </Text>
+      )}
+
       {scoredResult && (
         <ScoringBreakdown
           score={scoredResult.score}

@@ -1,5 +1,4 @@
 import { Table, Title, Group, Text } from "@mantine/core";
-// using native <img> because this is a Vite/react-router app (not Next.js)
 import { ScoreDetail, cardToString, Card } from "../../cribbage";
 import { ShareLinkButton } from "../ShareLinkButton";
 
