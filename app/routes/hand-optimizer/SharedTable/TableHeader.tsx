@@ -1,12 +1,8 @@
-import {
-  Table as MantineTable,
-  Group,
-  Text,
-} from '@mantine/core';
+import { Table as MantineTable, Group, Text } from '@mantine/core';
 import {
   IconChevronDown,
   IconChevronUp,
-  IconArrowsVertical,
+  IconArrowsVertical
 } from '@tabler/icons-react';
 import classes from './Table.module.css';
 
@@ -38,7 +34,7 @@ export const TableHeader = ({
   onSortChange,
   visibleStats,
   isMyCrib = true,
-  groupHeaders = true,
+  groupHeaders = true
 }: {
   headers: HeaderGroup[];
   stats: StatConfig[];
@@ -49,7 +45,12 @@ export const TableHeader = ({
   isMyCrib?: boolean;
   groupHeaders?: boolean;
 }) => {
-  const renderHeaderCell = (label: string, key: string, withBorder = false, sortable = true) => {
+  const renderHeaderCell = (
+    label: string,
+    key: string,
+    withBorder = false,
+    sortable = true
+  ) => {
     const active = sortBy === key;
     return (
       <MantineTable.Th
@@ -59,7 +60,7 @@ export const TableHeader = ({
           userSelect: 'none',
           whiteSpace: 'nowrap',
           textAlign: 'center',
-          cursor: sortable ? 'pointer' : 'default',
+          cursor: sortable ? 'pointer' : 'default'
         }}
         onClick={sortable ? () => onSortChange(key) : undefined}
       >
@@ -74,9 +75,10 @@ export const TableHeader = ({
   };
 
   const dynamicHeaders = headers.map(({ label, key, colSpan }) => ({
-    label: key === 'combined' ? (isMyCrib ? 'Hand + Crib' : 'Hand - Crib') : label,
+    label:
+      key === 'combined' ? (isMyCrib ? 'Hand + Crib' : 'Hand - Crib') : label,
     key,
-    colSpan,
+    colSpan
   }));
 
   return (
@@ -100,18 +102,15 @@ export const TableHeader = ({
       )}
       <MantineTable.Tr>
         {!groupHeaders && (
-          <MantineTable.Th className={classes.discardCell}>Discards</MantineTable.Th>
+          <MantineTable.Th className={classes.discardCell}>
+            Discards
+          </MantineTable.Th>
         )}
         {dynamicHeaders.flatMap(({ key: catKey }) =>
           stats
             .filter(({ key }) => visibleStats.has(key))
             .map(({ label, key: statKey, sortable = true }, j) =>
-              renderHeaderCell(
-                label,
-                `${catKey}_${statKey}`,
-                j === 0, 
-                sortable
-              )
+              renderHeaderCell(label, `${catKey}_${statKey}`, j === 0, sortable)
             )
         )}
       </MantineTable.Tr>

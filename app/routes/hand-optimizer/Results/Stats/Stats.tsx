@@ -1,24 +1,24 @@
-import React, { useState, useMemo } from "react";
-import { Table as MantineTable } from "@mantine/core";
-import { Toolbar } from "./Toolbar";
+import React, { useState, useMemo } from 'react';
+import { Table as MantineTable } from '@mantine/core';
+import { Toolbar } from './Toolbar';
 import {
   TableHeader,
   TableBody,
   getScoreValue,
-  StatKey,
-} from "../../SharedTable";
-import { EvaluationResult } from "../../../../cribbage/evaluateSixCardHand";
-import classes from "./Stats.module.css";
+  StatKey
+} from '../../SharedTable';
+import { EvaluationResult } from '../../../../cribbage/evaluateSixCardHand';
+import classes from './Stats.module.css';
 
 const headers = [
-  { label: "Combined", key: "combined", colSpan: 3 },
-  { label: "Hand", key: "hand", colSpan: 3 },
-  { label: "Crib", key: "crib", colSpan: 3 },
+  { label: 'Combined', key: 'combined', colSpan: 3 },
+  { label: 'Hand', key: 'hand', colSpan: 3 },
+  { label: 'Crib', key: 'crib', colSpan: 3 }
 ];
 
 export const stats: { label: string; key: StatKey }[] = [
-  { label: "Avg", key: "avg" },
-  { label: "Min", key: "min" },
+  { label: 'Avg', key: 'avg' },
+  { label: 'Min', key: 'min' }
 ];
 
 type Props = {
@@ -27,10 +27,10 @@ type Props = {
 };
 
 export const Stats = ({ hands, isMyCrib }: Props) => {
-  const [sortBy, setSortBy] = useState<string>("combined_avg");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState<string>('combined_avg');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [visibleStats, setVisibleStats] = useState<Set<StatKey>>(
-    new Set(["avg", "min"]),
+    new Set(['avg', 'min'])
   );
 
   const toggleStat = (key: StatKey) => {
@@ -42,7 +42,7 @@ export const Stats = ({ hands, isMyCrib }: Props) => {
   };
 
   const maxValues = useMemo(() => {
-    const maxMap = new Map<string, number>(); // key: 'combined_avg' etc, value: max number
+    const maxMap = new Map<string, number>();
 
     hands.forEach((hand) => {
       headers.forEach(({ key: catKey }) => {
@@ -77,10 +77,10 @@ export const Stats = ({ hands, isMyCrib }: Props) => {
             sortDirection={sortDirection}
             onSortChange={(key) => {
               if (sortBy === key) {
-                setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
               } else {
                 setSortBy(key);
-                setSortDirection("desc");
+                setSortDirection('desc');
               }
             }}
             visibleStats={visibleStats}
@@ -102,15 +102,15 @@ export const Stats = ({ hands, isMyCrib }: Props) => {
                     return (
                       <MantineTable.Td
                         key={sortKey}
-                        className={`${j === 0 ? classes.cellBorderLeft : ""} ${isMax ? classes.highlight : ""}`}
-                        style={{ textAlign: "center", whiteSpace: "nowrap" }}
+                        className={`${j === 0 ? classes.cellBorderLeft : ''} ${isMax ? classes.highlight : ''}`}
+                        style={{ textAlign: 'center', whiteSpace: 'nowrap' }}
                       >
-                        {sortKey.endsWith("avg")
+                        {sortKey.endsWith('avg')
                           ? value.toFixed(1)
                           : Math.round(value)}
                       </MantineTable.Td>
                     );
-                  }),
+                  })
               )
             }
           />

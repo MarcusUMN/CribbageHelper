@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { Button, Switch, Stack, Text, Popover, Group } from "@mantine/core";
-import { IconInfoCircle } from "@tabler/icons-react";
-import { useSearchParams } from "react-router";
+import { useState } from 'react';
+import { Switch, Stack, Text, Popover, Group } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons-react';
+import { useSearchParams } from 'react-router';
 import {
   scoreHand,
   validateHand,
   Card,
   getRandomHand,
   getHandHash,
-  parseHandString,
-} from "../../cribbage";
-import { CardSelector } from "../../ui/CardSelector";
-import { ScoringBreakdown, ScoredResult } from "../../ui/ScoringBreakdown";
-import { PageContainer } from "../../ui/PageContainer";
-import { RandomGeneratorButton } from "../../ui/RandomGeneratorButton";
-import { errorLogic } from "../../ui/ErrorNotifications";
+  parseHandString
+} from '../../cribbage';
+import { CardSelector } from '../../ui/CardSelector';
+import { ScoringBreakdown, ScoredResult } from './ScoringBreakdown';
+import { ComputeButtonBlock } from '../../ui/ComputeButtonBlock';
+import { PageContainer } from '../../ui/PageContainer';
+import { RandomGeneratorButton } from '../../ui/RandomGeneratorButton';
+import { errorLogic } from '../../ui/ErrorNotifications';
 
 type HandScoreInputs = {
   hand: string;
@@ -24,22 +25,22 @@ type HandScoreInputs = {
 
 export const HandCalculator = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const handStr = searchParams.get("hand") ?? "";
-  const starterStr = searchParams.get("s") ?? "";
-  const cribStr = searchParams.get("c") ?? "";
+  const handStr = searchParams.get('hand') ?? '';
+  const starterStr = searchParams.get('s') ?? '';
+  const cribStr = searchParams.get('c') ?? '';
 
   const parsedHand = parseHandString(handStr);
   const initialHand =
     parsedHand.length === 4 ? parsedHand : [null, null, null, null];
   const parsedStarter = parseHandString(starterStr);
   const initialStarter = parsedStarter.length === 1 ? parsedStarter[0] : null;
-  const initialIsCrib = cribStr.toUpperCase() === "Y";
+  const initialIsCrib = cribStr.toUpperCase() === 'Y';
 
   const [hand, setHand] = useState<(Card | null)[]>(initialHand);
   const [starter, setStarter] = useState<Card | null>(initialStarter);
   const [isCrib, setIsCrib] = useState(initialIsCrib);
   const [lastCalculated, setLastCalculated] = useState<HandScoreInputs | null>(
-    null,
+    null
   );
 
   const [scoredResult, setScoredResult] = useState<ScoredResult | null>(() => {
@@ -52,13 +53,13 @@ export const HandCalculator = () => {
       const result = scoreHand(
         initialHand as Card[],
         initialStarter,
-        initialIsCrib,
+        initialIsCrib
       );
 
       const inputs = {
         hand: getHandHash(initialHand as Card[]),
         starter: getHandHash([initialStarter]),
-        isCrib: initialIsCrib,
+        isCrib: initialIsCrib
       };
 
       setLastCalculated(inputs);
@@ -68,7 +69,7 @@ export const HandCalculator = () => {
         details: result.details,
         hand: initialHand as Card[],
         starter: initialStarter,
-        isCrib: initialIsCrib,
+        isCrib: initialIsCrib
       };
     }
     return null;
@@ -79,7 +80,7 @@ export const HandCalculator = () => {
       ? {
           hand: getHandHash(hand as Card[]),
           starter: getHandHash([starter]),
-          isCrib,
+          isCrib
         }
       : null;
 
@@ -100,7 +101,7 @@ export const HandCalculator = () => {
   const calculateHand = (
     handToScore: (Card | null)[],
     starterToScore: Card | null,
-    isCribFlag: boolean,
+    isCribFlag: boolean
   ) => {
     if (!errorLogic.validateHand(handToScore, { starter: starterToScore }))
       return;
@@ -108,13 +109,13 @@ export const HandCalculator = () => {
     const result = scoreHand(
       handToScore as Card[],
       starterToScore as Card,
-      isCribFlag,
+      isCribFlag
     );
 
     const inputs = {
       hand: getHandHash(handToScore as Card[]),
       starter: getHandHash([starterToScore as Card]),
-      isCrib: isCribFlag,
+      isCrib: isCribFlag
     };
 
     setScoredResult({
@@ -122,14 +123,14 @@ export const HandCalculator = () => {
       details: result.details,
       hand: handToScore as Card[],
       starter: starterToScore as Card,
-      isCrib: isCribFlag,
+      isCrib: isCribFlag
     });
 
     setLastCalculated(inputs);
 
     setSearchParams(
-      { hand: inputs.hand, s: inputs.starter, c: isCribFlag ? "Y" : "N" },
-      { replace: true, preventScrollReset: true },
+      { hand: inputs.hand, s: inputs.starter, c: isCribFlag ? 'Y' : 'N' },
+      { replace: true, preventScrollReset: true }
     );
   };
 
@@ -144,10 +145,6 @@ export const HandCalculator = () => {
     calculateHand(handCards, starterCard, isCrib);
   };
 
-  const handleScoreClick = () => {
-    calculateHand(hand, starter, isCrib);
-  };
-
   return (
     <PageContainer
       title="Hand Calculator"
@@ -155,7 +152,7 @@ export const HandCalculator = () => {
       label="Select Your Hand (4 cards):"
       headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
-      <Stack gap="xs">
+      <Stack>
         {hand.map((card, idx) => (
           <CardSelector
             key={idx}
@@ -183,7 +180,7 @@ export const HandCalculator = () => {
             <Popover.Target>
               <IconInfoCircle
                 size={16}
-                style={{ verticalAlign: "middle", marginLeft: 4 }}
+                style={{ verticalAlign: 'middle', marginLeft: 4 }}
               />
             </Popover.Target>
             <Popover.Dropdown>
@@ -193,31 +190,25 @@ export const HandCalculator = () => {
             </Popover.Dropdown>
           </Popover>
         </Group>
-      </Stack>
 
-      <Button onClick={handleScoreClick} mt="sm" fullWidth disabled={!isStale}>
-        {!isStale ? "Score is up to date" : "Score Hand"}
-      </Button>
-
-      {scoredResult && isStale && (
-        <Text size="xs" c="dimmed" mt="sm">
-          Previous results are shown. Press{" "}
-          <Text c="black" component="span" fw={700}>
-            Score Hand
-          </Text>{" "}
-          to update.
-        </Text>
-      )}
-
-      {scoredResult && (
-        <ScoringBreakdown
-          score={scoredResult.score}
-          details={scoredResult.details}
-          hand={scoredResult.hand}
-          starter={scoredResult.starter}
-          isCrib={scoredResult.isCrib}
+        <ComputeButtonBlock
+          onClick={() => calculateHand(hand, starter, isCrib)}
+          disabledButton={!isStale}
+          showStaleMessage={!!scoredResult && isStale}
+          label="Score Hand"
+          disabledLabel="Score is up to date"
         />
-      )}
+
+        {scoredResult && (
+          <ScoringBreakdown
+            score={scoredResult.score}
+            details={scoredResult.details}
+            hand={scoredResult.hand}
+            starter={scoredResult.starter}
+            isCrib={scoredResult.isCrib}
+          />
+        )}
+      </Stack>
     </PageContainer>
   );
 };

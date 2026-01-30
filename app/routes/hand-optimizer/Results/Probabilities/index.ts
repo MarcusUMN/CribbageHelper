@@ -1,1 +1,1 @@
-export { Probabilities } from './Probabilities'
+export { Probabilities } from './Probabilities';

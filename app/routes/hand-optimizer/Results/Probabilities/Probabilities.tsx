@@ -1,49 +1,49 @@
-import React, { useMemo, useState } from "react";
-import { Table as MantineTable } from "@mantine/core";
-import { Toolbar } from "./Toolbar";
-import { TableHeader, TableBody, StatKey } from "../../SharedTable";
-import { EvaluationResult } from "../../../../cribbage/evaluateSixCardHand";
-import classes from "./Probabilities.module.css";
+import React, { useMemo, useState } from 'react';
+import { Table as MantineTable } from '@mantine/core';
+import { Toolbar } from './Toolbar';
+import { TableHeader, TableBody, StatKey } from '../../SharedTable';
+import { EvaluationResult } from '../../../../cribbage/evaluateSixCardHand';
+import classes from './Probabilities.module.css';
 
 const headers = [
-  { label: "Combined", key: "combined", colSpan: 1 },
-  { label: "Hand", key: "hand", colSpan: 1 },
-  { label: "Crib", key: "crib", colSpan: 1 },
+  { label: 'Combined', key: 'combined', colSpan: 1 },
+  { label: 'Hand', key: 'hand', colSpan: 1 },
+  { label: 'Crib', key: 'crib', colSpan: 1 }
 ];
 
 const stats: { label: string; key: StatKey }[] = [
-  { label: "Probability", key: "weightedDistribution" },
+  { label: 'Probability', key: 'weightedDistribution' }
 ];
 
 const operators = [
   {
-    label: "<",
-    value: "<",
-    compare: (score: number, threshold: number) => score < threshold,
+    label: '<',
+    value: '<',
+    compare: (score: number, threshold: number) => score < threshold
   },
   {
-    label: "<=",
-    value: "<=",
-    compare: (score: number, threshold: number) => score <= threshold,
+    label: '<=',
+    value: '<=',
+    compare: (score: number, threshold: number) => score <= threshold
   },
   {
-    label: "=",
-    value: "=",
-    compare: (score: number, threshold: number) => score === threshold,
+    label: '=',
+    value: '=',
+    compare: (score: number, threshold: number) => score === threshold
   },
   {
-    label: ">=",
-    value: ">=",
-    compare: (score: number, threshold: number) => score >= threshold,
+    label: '>=',
+    value: '>=',
+    compare: (score: number, threshold: number) => score >= threshold
   },
   {
-    label: ">",
-    value: ">",
-    compare: (score: number, threshold: number) => score > threshold,
-  },
+    label: '>',
+    value: '>',
+    compare: (score: number, threshold: number) => score > threshold
+  }
 ];
 
-type CategoryKey = "hand" | "crib" | "combined";
+type CategoryKey = 'hand' | 'crib' | 'combined';
 
 type Props = {
   hands: EvaluationResult[];
@@ -51,14 +51,14 @@ type Props = {
 };
 
 export const Probabilities = ({ hands, isMyCrib }: Props) => {
-  const [sortBy, setSortBy] = useState<string>("combined_weightedDistribution");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState<string>('combined_weightedDistribution');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [threshold, setThreshold] = useState<number>(10);
-  const [operator, setOperator] = useState<string>(">=");
+  const [operator, setOperator] = useState<string>('>=');
 
   const visibleStats = useMemo(
-    () => new Set<StatKey>(["weightedDistribution"]),
-    [],
+    () => new Set<StatKey>(['weightedDistribution']),
+    []
   );
 
   const compareFn =
@@ -68,7 +68,7 @@ export const Probabilities = ({ hands, isMyCrib }: Props) => {
   const getCumulativeProb = (
     hand: EvaluationResult,
     cat: CategoryKey,
-    threshold: number,
+    threshold: number
   ): number => {
     const dist = hand.scoreData[cat].weightedDistribution ?? {};
     return Object.entries(dist).reduce(
@@ -77,13 +77,13 @@ export const Probabilities = ({ hands, isMyCrib }: Props) => {
         if (compareFn(score, threshold)) acc += weightedDistribution;
         return acc;
       },
-      0,
+      0
     );
   };
 
   const getScoreValue = (hand: EvaluationResult, sortKey: string): number => {
-    const [catKey, statKey] = sortKey.split("_") as [CategoryKey, StatKey];
-    if (statKey === "weightedDistribution") {
+    const [catKey, statKey] = sortKey.split('_') as [CategoryKey, StatKey];
+    if (statKey === 'weightedDistribution') {
       return getCumulativeProb(hand, catKey, threshold);
     }
     return 0;
@@ -109,7 +109,7 @@ export const Probabilities = ({ hands, isMyCrib }: Props) => {
       const aVal = getScoreValue(a, sortBy);
       const bVal = getScoreValue(b, sortBy);
       if (aVal === bVal) return 0;
-      return sortDirection === "asc" ? aVal - bVal : bVal - aVal;
+      return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
     });
   }, [hands, sortBy, sortDirection, threshold, operator]);
 
@@ -130,10 +130,10 @@ export const Probabilities = ({ hands, isMyCrib }: Props) => {
             sortDirection={sortDirection}
             onSortChange={(key) => {
               if (sortBy === key) {
-                setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+                setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
               } else {
                 setSortBy(key);
-                setSortDirection("desc");
+                setSortDirection('desc');
               }
             }}
             visibleStats={visibleStats}
@@ -153,13 +153,13 @@ export const Probabilities = ({ hands, isMyCrib }: Props) => {
                   return (
                     <MantineTable.Td
                       key={sortKey}
-                      className={`${j === 0 ? classes.cellBorderLeft : ""} ${isMax ? classes.highlight : ""}`}
-                      style={{ textAlign: "center", whiteSpace: "nowrap" }}
+                      className={`${j === 0 ? classes.cellBorderLeft : ''} ${isMax ? classes.highlight : ''}`}
+                      style={{ textAlign: 'center', whiteSpace: 'nowrap' }}
                     >
                       {(value * 100).toFixed(1)}%
                     </MantineTable.Td>
                   );
-                }),
+                })
               )
             }
           />

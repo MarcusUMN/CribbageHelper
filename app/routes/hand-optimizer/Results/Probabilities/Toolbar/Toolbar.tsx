@@ -6,7 +6,7 @@ const operators = [
   { label: '<=', value: '<=' },
   { label: '=', value: '=' },
   { label: '>=', value: '>=' },
-  { label: '>', value: '>' },
+  { label: '>', value: '>' }
 ];
 
 type Props = {
@@ -20,7 +20,7 @@ export const Toolbar = ({
   threshold,
   onThresholdChange,
   operator,
-  onOperatorChange,
+  onOperatorChange
 }: Props) => {
   return (
     <Group mt="md" mb="md" align="center">

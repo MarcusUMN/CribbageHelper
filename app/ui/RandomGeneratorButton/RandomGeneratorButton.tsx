@@ -1,5 +1,5 @@
-import { Button } from "@mantine/core";
-import { IconDice4Filled } from "@tabler/icons-react";
+import { Button } from '@mantine/core';
+import { IconDice4Filled } from '@tabler/icons-react';
 
 type RandomGeneratorButtonProps = {
   onClick: () => void;
@@ -8,7 +8,7 @@ type RandomGeneratorButtonProps = {
 
 export const RandomGeneratorButton = ({
   onClick,
-  label = "Random Hand",
+  label = 'Random Hand'
 }: RandomGeneratorButtonProps) => {
   return (
     <Button onClick={onClick} rightSection={<IconDice4Filled size={14} />}>

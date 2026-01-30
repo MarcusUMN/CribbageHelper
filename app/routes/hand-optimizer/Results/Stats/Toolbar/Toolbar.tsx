@@ -6,15 +6,15 @@ import {
   Stack,
   Group,
   Text,
-  Box,
+  Box
 } from '@mantine/core';
 import { IconSettings } from '@tabler/icons-react';
-import { StatKey } from '../../../SharedTable'
+import { StatKey } from '../../../SharedTable';
 
 type Props = {
   visibleStats: Set<StatKey>;
   onToggleStat: (key: StatKey) => void;
-  stats: {label: string; key: StatKey;}[]
+  stats: { label: string; key: StatKey }[];
 };
 
 export const Toolbar = ({ stats, visibleStats, onToggleStat }: Props) => {
@@ -22,11 +22,17 @@ export const Toolbar = ({ stats, visibleStats, onToggleStat }: Props) => {
 
   return (
     <React.Fragment>
-      <Group justify="space-between" align="center" wrap="nowrap" mt="md" mb="md">
+      <Group
+        justify="space-between"
+        align="center"
+        wrap="nowrap"
+        mt="md"
+        mb="md"
+      >
         <Box style={{ flex: 1, minWidth: 0 }}>
           <Text size="sm" c="dimmed">
-            Shows all possible 2-card discards from your 6-card hand
-            with their expected scoring outcomes.
+            Shows all possible 2-card discards from your 6-card hand with their
+            expected scoring outcomes.
           </Text>
         </Box>
 
@@ -46,7 +52,7 @@ export const Toolbar = ({ stats, visibleStats, onToggleStat }: Props) => {
         centered
         size="md"
       >
-        <Stack gap="sm">
+        <Stack>
           <div>
             <Text fw={600} size="sm" mb={4}>
               Show/Hide Columns
@@ -54,13 +60,13 @@ export const Toolbar = ({ stats, visibleStats, onToggleStat }: Props) => {
             <Text size="xs" c="dimmed" mb="xs">
               Toggle which score stats are visible in the table.
             </Text>
-            <Stack gap="xs">
+            <Stack>
               {stats.map(({ label, key }) => (
                 <Checkbox
                   key={key}
                   label={`Show ${label}`}
-                  checked={visibleStats.has(key  as StatKey)}
-                  onChange={() => onToggleStat(key  as StatKey)}
+                  checked={visibleStats.has(key as StatKey)}
+                  onChange={() => onToggleStat(key as StatKey)}
                 />
               ))}
             </Stack>

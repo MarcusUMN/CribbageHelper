@@ -1,2 +1,2 @@
-export { getBaseScore} from './baseScoreCache'
-export { getDiscardWeight} from './cribDiscardWeights'
+export { getBaseScore } from './baseScoreCache';
+export { getDiscardWeight } from './cribDiscardWeights';

@@ -35,7 +35,10 @@ export function scoreHand(
   return { total, details };
 }
 
-export function scoreHandIgnoringFlushAndNobs(hand: Card[], starter: Card): number {
+export function scoreHandIgnoringFlushAndNobs(
+  hand: Card[],
+  starter: Card
+): number {
   const fullHand = [...hand, starter];
   let total = 0;
 
@@ -49,10 +52,12 @@ export function scoreHandIgnoringFlushAndNobs(hand: Card[], starter: Card): numb
     rankCounts[card.rank] = (rankCounts[card.rank] || 0) + 1;
   }
   for (const count of Object.values(rankCounts)) {
-    if (count >= 2) total += (count * (count - 1));
+    if (count >= 2) total += count * (count - 1);
   }
 
-  const sorted = [...fullHand].sort((a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]);
+  const sorted = [...fullHand].sort(
+    (a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]
+  );
   for (let size = 5; size >= 3; size--) {
     const combos = getAllCombosOfSize(sorted, size);
     for (const combo of combos) {
@@ -63,15 +68,19 @@ export function scoreHandIgnoringFlushAndNobs(hand: Card[], starter: Card): numb
   return total;
 }
 
-export function calculateFlushScore(hand: Card[], starter: Card, isCrib: boolean): number {
+export function calculateFlushScore(
+  hand: Card[],
+  starter: Card,
+  isCrib: boolean
+): number {
   const firstSuit = hand[0].suit;
-  if (!hand.every(c => c.suit === firstSuit)) return 0;
+  if (!hand.every((c) => c.suit === firstSuit)) return 0;
   if (starter.suit === firstSuit) return 5;
   return isCrib ? 0 : 4;
 }
 
 export function calculateNobsScore(hand: Card[], starter: Card): number {
-  return hand.some(c => c.rank === 'J' && c.suit === starter.suit) ? 1 : 0;
+  return hand.some((c) => c.rank === 'J' && c.suit === starter.suit) ? 1 : 0;
 }
 
 function scoreFifteens(cards: Card[]): ScoreDetail[] {
@@ -80,7 +89,7 @@ function scoreFifteens(cards: Card[]): ScoreDetail[] {
 
   for (const combo of combos) {
     const sum = combo.reduce((acc, c) => acc + RANK_VALUE[c.rank], 0);
-    if (sum === 15 && !results.some(r => isSameCardSet(r.cards, combo))) {
+    if (sum === 15 && !results.some((r) => isSameCardSet(r.cards, combo))) {
       results.push({ type: 'Fifteen', points: 2, cards: combo });
     }
   }
@@ -92,7 +101,7 @@ function scorePairs(cards: Card[]): ScoreDetail[] {
   const results: ScoreDetail[] = [];
   const rankCounts: Record<string, Card[]> = {};
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     if (!rankCounts[card.rank]) rankCounts[card.rank] = [];
     rankCounts[card.rank].push(card);
   });
@@ -104,7 +113,7 @@ function scorePairs(cards: Card[]): ScoreDetail[] {
       results.push({
         type: `Pair${count > 2 ? 's' : ''} of ${rank}`,
         points: pairsCount * 2,
-        cards: cardsOfRank,
+        cards: cardsOfRank
       });
     }
   });
@@ -117,21 +126,34 @@ function scoreRuns(cards: Card[]): ScoreDetail[] {
   const n = cards.length;
   if (n < 3) return results;
 
-  const sorted = [...cards].sort((a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]);
+  const sorted = [...cards].sort(
+    (a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]
+  );
 
   let maxRunLength = 0;
   const runDetails: ScoreDetail[] = [];
 
   for (let size = n; size >= 3; size--) {
     const combos = getAllCombosOfSize(sorted, size);
-    combos.forEach(combo => {
+    combos.forEach((combo) => {
       if (isRun(combo)) {
         if (size > maxRunLength) {
           maxRunLength = size;
           runDetails.length = 0;
-          runDetails.push({ type: `Run of ${size}`, points: size, cards: combo });
-        } else if (size === maxRunLength && !runDetails.some(r => isSameCardSet(r.cards, combo))) {
-          runDetails.push({ type: `Run of ${size}`, points: size, cards: combo });
+          runDetails.push({
+            type: `Run of ${size}`,
+            points: size,
+            cards: combo
+          });
+        } else if (
+          size === maxRunLength &&
+          !runDetails.some((r) => isSameCardSet(r.cards, combo))
+        ) {
+          runDetails.push({
+            type: `Run of ${size}`,
+            points: size,
+            cards: combo
+          });
         }
       }
     });
@@ -145,14 +167,21 @@ function scoreRuns(cards: Card[]): ScoreDetail[] {
 
 function isRun(cards: Card[]): boolean {
   if (cards.length < 3) return false;
-  const sorted = [...cards].sort((a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]);
+  const sorted = [...cards].sort(
+    (a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]
+  );
   for (let i = 1; i < sorted.length; i++) {
-    if (RANK_ORDER[sorted[i].rank] !== RANK_ORDER[sorted[i - 1].rank] + 1) return false;
+    if (RANK_ORDER[sorted[i].rank] !== RANK_ORDER[sorted[i - 1].rank] + 1)
+      return false;
   }
   return true;
 }
 
-function scoreFlush(hand: Card[], starter: Card, isCrib: boolean): ScoreDetail[] {
+function scoreFlush(
+  hand: Card[],
+  starter: Card,
+  isCrib: boolean
+): ScoreDetail[] {
   const flushResults: ScoreDetail[] = [];
   const firstSuit = hand[0].suit;
   if (hand.every((c) => c.suit === firstSuit)) {
@@ -161,13 +190,13 @@ function scoreFlush(hand: Card[], starter: Card, isCrib: boolean): ScoreDetail[]
       flushResults.push({
         type: isCrib ? 'Crib Flush' : 'Flush',
         points,
-        cards: [...hand, starter],
+        cards: [...hand, starter]
       });
     } else if (!isCrib) {
       flushResults.push({
         type: 'Flush',
         points: 4,
-        cards: hand,
+        cards: hand
       });
     }
   }
@@ -199,7 +228,13 @@ function getAllCombosOfSize(cards: Card[], size: number): Card[][] {
   return results;
 }
 
-function combine(cards: Card[], size: number, start: number, path: Card[], res: Card[][]) {
+function combine(
+  cards: Card[],
+  size: number,
+  start: number,
+  path: Card[],
+  res: Card[][]
+) {
   if (path.length === size) {
     res.push([...path]);
     return;
@@ -213,7 +248,13 @@ function combine(cards: Card[], size: number, start: number, path: Card[], res: 
 
 function isSameCardSet(a: Card[], b: Card[]): boolean {
   if (a.length !== b.length) return false;
-  const aStr = a.map(c => c.rank + c.suit).sort().join('');
-  const bStr = b.map(c => c.rank + c.suit).sort().join('');
+  const aStr = a
+    .map((c) => c.rank + c.suit)
+    .sort()
+    .join('');
+  const bStr = b
+    .map((c) => c.rank + c.suit)
+    .sort()
+    .join('');
   return aStr === bStr;
 }

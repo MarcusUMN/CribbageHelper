@@ -1,4 +1,4 @@
-import { ParsedUrlQuery } from "querystring";
+import { ParsedUrlQuery } from 'querystring';
 import {
   Tabs,
   Center,
@@ -6,18 +6,18 @@ import {
   Button,
   Group,
   Title,
-  Badge,
-} from "@mantine/core";
+  Badge
+} from '@mantine/core';
 import {
   IconTableFilled,
-  IconCirclePercentageFilled,
-} from "@tabler/icons-react";
-import { useNavigate } from "react-router";
-import { FormatCard } from "../../../ui/FormatCard";
-import { Stats } from "./Stats";
-import { Probabilities } from "./Probabilities";
-import classes from "./Results.module.css";
-import { useCachedEvaluation } from "../hooks/useCachedEvaluation";
+  IconCirclePercentageFilled
+} from '@tabler/icons-react';
+import { useNavigate } from 'react-router';
+import { FormatCard } from '../../../ui/FormatCard';
+import { Stats } from './Stats';
+import { Probabilities } from './Probabilities';
+import classes from './Results.module.css';
+import { useCachedEvaluation } from '../hooks/useCachedEvaluation';
 
 type Props = {
   queryParams: ParsedUrlQuery;
@@ -27,7 +27,7 @@ export const Results = ({ queryParams }: Props) => {
   const navigate = useNavigate();
   const handKey = queryParams.data as string | undefined;
   const cribFlag = queryParams.crib as string | undefined;
-  const isMyCrib = cribFlag === "Y";
+  const isMyCrib = cribFlag === 'Y';
 
   if (!handKey) return <div>No hand data provided</div>;
 
@@ -35,7 +35,7 @@ export const Results = ({ queryParams }: Props) => {
 
   if (loading || !result) {
     return (
-      <Center mt="xl" style={{ height: "700px" }}>
+      <Center mt="xl" style={{ height: '700px' }}>
         <Loader color="blue" size="lg" />
       </Center>
     );
@@ -47,20 +47,20 @@ export const Results = ({ queryParams }: Props) => {
         <Group>
           <Title order={3}>RESULTS</Title>
           <Badge
-            color={isMyCrib ? "green" : "gray"}
+            color={isMyCrib ? 'green' : 'gray'}
             variant="light"
             size="lg"
             mt={4}
           >
-            {isMyCrib ? "Your Crib" : "Opponent's Crib"}
+            {isMyCrib ? 'Your Crib' : "Opponent's Crib"}
           </Badge>
         </Group>
-        <Button onClick={() => navigate("/hand-optimizer")}>New hand</Button>
+        <Button onClick={() => navigate('/hand-optimizer')}>New hand</Button>
       </Group>
-      <Group gap="xs" mb="md">
-        {handKey.split("-").map((cardStr, idx) => {
+      <Group mb="md">
+        {handKey.split('-').map((cardStr, idx) => {
           const rank = cardStr.slice(0, -1);
-          const suit = cardStr.slice(-1) as "S" | "H" | "D" | "C";
+          const suit = cardStr.slice(-1) as 'S' | 'H' | 'D' | 'C';
           return <FormatCard key={idx} rank={rank} suit={suit} iconSize={20} />;
         })}
       </Group>

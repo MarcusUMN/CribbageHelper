@@ -1,13 +1,13 @@
-import React from "react";
-import { Table as MantineTable, Group } from "@mantine/core";
-import { FormatCard } from "../../../ui/FormatCard";
-import classes from "./Table.module.css";
-import { EvaluationResult } from "../../../cribbage/evaluateSixCardHand";
+import React from 'react';
+import { Table as MantineTable, Group } from '@mantine/core';
+import { FormatCard } from '../../../ui/FormatCard';
+import classes from './Table.module.css';
+import { EvaluationResult } from '../../../cribbage/evaluateSixCardHand';
 
 type Props = {
   hands: EvaluationResult[];
   sortBy: string;
-  sortDirection: "asc" | "desc";
+  sortDirection: 'asc' | 'desc';
   getScoreValue: (hand: EvaluationResult, sortKey: string) => number;
   renderRow: (hand: EvaluationResult, idx: number) => React.ReactNode;
 };
@@ -17,12 +17,12 @@ export const TableBody: React.FC<Props> = ({
   sortBy,
   sortDirection,
   getScoreValue,
-  renderRow,
+  renderRow
 }) => {
   const sortedHands = [...hands].sort((a, b) => {
     const aVal = getScoreValue(a, sortBy);
     const bVal = getScoreValue(b, sortBy);
-    return sortDirection === "asc" ? aVal - bVal : bVal - aVal;
+    return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
   });
 
   return (
@@ -30,10 +30,10 @@ export const TableBody: React.FC<Props> = ({
       {sortedHands.map((hand, idx) => (
         <MantineTable.Tr key={idx}>
           <MantineTable.Td className={classes.discardCell}>
-            <Group gap="xs" wrap="nowrap">
+            <Group wrap="nowrap">
               {hand.discard.map((cardStr, i) => {
                 const rank = cardStr.slice(0, -1);
-                const suit = cardStr.slice(-1) as "S" | "H" | "D" | "C";
+                const suit = cardStr.slice(-1) as 'S' | 'H' | 'D' | 'C';
                 return <FormatCard key={i} rank={rank} suit={suit} />;
               })}
             </Group>

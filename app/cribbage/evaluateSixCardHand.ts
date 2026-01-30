@@ -6,7 +6,7 @@ import {
   combinations,
   getRemainingDeck,
   cardToString,
-  parseHandString,
+  parseHandString
 } from '.';
 import { getBaseScore, getDiscardWeight } from './scoringData';
 
@@ -41,7 +41,9 @@ function scoreHand(hand: Card[], cut: Card, isCrib: boolean): number {
   );
 }
 
-function normalizeDistribution(dist: Map<number, number>): Record<number, number> {
+function normalizeDistribution(
+  dist: Map<number, number>
+): Record<number, number> {
   const totalWeight = Array.from(dist.values()).reduce((sum, w) => sum + w, 0);
   const fullDist: Record<number, number> = {};
   const scores = Array.from(dist.keys());
@@ -64,7 +66,7 @@ export function evaluateSixCardHand(
   const keepOptions = combinations(sixCards, 4);
 
   for (const keep of keepOptions) {
-    const discard = sixCards.filter(c => !keep.includes(c));
+    const discard = sixCards.filter((c) => !keep.includes(c));
     const remainingDeck = getRemainingDeck(sixCards);
 
     let totalWeight = 0;
@@ -83,7 +85,7 @@ export function evaluateSixCardHand(
       const handScore = scoreHand(keep, cut, false);
       minHand = Math.min(minHand, handScore);
 
-      const opponentCandidates = remainingDeck.filter(c => c !== cut);
+      const opponentCandidates = remainingDeck.filter((c) => c !== cut);
 
       for (let i = 0; i < opponentCandidates.length; i++) {
         for (let j = i + 1; j < opponentCandidates.length; j++) {
@@ -107,7 +109,10 @@ export function evaluateSixCardHand(
 
           handDist.set(handScore, (handDist.get(handScore) ?? 0) + weight);
           cribDist.set(cribScore, (cribDist.get(cribScore) ?? 0) + weight);
-          combinedDist.set(combinedScore, (combinedDist.get(combinedScore) ?? 0) + weight);
+          combinedDist.set(
+            combinedScore,
+            (combinedDist.get(combinedScore) ?? 0) + weight
+          );
         }
       }
     }
@@ -119,19 +124,19 @@ export function evaluateSixCardHand(
         hand: {
           avg: totalHand / (totalWeight || 1),
           min: minHand,
-          weightedDistribution: normalizeDistribution(handDist),
+          weightedDistribution: normalizeDistribution(handDist)
         },
         crib: {
           avg: totalCrib / (totalWeight || 1),
           min: minCrib,
-          weightedDistribution: normalizeDistribution(cribDist),
+          weightedDistribution: normalizeDistribution(cribDist)
         },
         combined: {
           avg: totalCombined / (totalWeight || 1),
           min: minCombined,
-          weightedDistribution: normalizeDistribution(combinedDist),
-        },
-      },
+          weightedDistribution: normalizeDistribution(combinedDist)
+        }
+      }
     });
   }
 

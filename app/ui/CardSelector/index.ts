@@ -1,1 +1,1 @@
-export {CardSelector } from './CardSelector';
+export { CardSelector } from './CardSelector';

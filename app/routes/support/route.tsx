@@ -1,7 +1,7 @@
-import { Support } from "./Support";
+import { Support } from './Support';
 
 export function meta() {
-  return [{ title: "" }, { name: "description", content: "" }];
+  return [{ title: '' }, { name: 'description', content: '' }];
 }
 
 export default Support;

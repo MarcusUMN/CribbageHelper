@@ -2,8 +2,8 @@ import {
   scoreHandIgnoringFlushAndNobs,
   combinations,
   getPrimeRankHash,
-  getDeck,
-} from "../../app/cribbage";
+  getDeck
+} from '../../app/cribbage';
 
 export function generateBaseScoreCache() {
   const baseScoreMap: Record<string, number> = {};
@@ -24,6 +24,6 @@ export function generateBaseScoreCache() {
     baseScoreMap[key] = baseScore;
   }
   return {
-    baseScoreMap,
+    baseScoreMap
   };
 }

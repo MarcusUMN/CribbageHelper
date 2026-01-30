@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Group, Text, Title, Box } from "@mantine/core";
+import { ReactNode } from 'react';
+import { Group, Text, Title, Box } from '@mantine/core';
 
 type PageContainerProps = {
   title: string;
@@ -16,7 +16,7 @@ export const PageContainer = ({
   label,
   headerRight,
   children,
-  maxPageWidth = "400px",
+  maxPageWidth = '400px'
 }: PageContainerProps) => {
   return (
     <Box pb="16px" maw={maxPageWidth} m="2rem auto">

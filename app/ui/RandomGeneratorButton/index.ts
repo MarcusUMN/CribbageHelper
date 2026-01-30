@@ -1,1 +1,1 @@
-export { RandomGeneratorButton } from "./RandomGeneratorButton";
+export { RandomGeneratorButton } from './RandomGeneratorButton';

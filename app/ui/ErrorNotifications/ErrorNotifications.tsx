@@ -1,17 +1,18 @@
 import { notifications } from '@mantine/notifications';
 import { IconExclamationCircle } from '@tabler/icons-react';
+import { Group, Text } from '@mantine/core';
 
 export const showError = (message: string) => {
   notifications.show({
-     message: (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <IconExclamationCircle color='#FA5252' />
-        <span>{message}</span>
-      </div>
+    message: (
+      <Group align="center">
+        <IconExclamationCircle color="red" />
+        <Text>{message}</Text>
+      </Group>
     ),
     color: 'red',
     autoClose: 5000,
     withCloseButton: true,
-    position: 'top-center',
+    position: 'top-center'
   });
 };

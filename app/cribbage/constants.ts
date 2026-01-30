@@ -11,7 +11,7 @@ export const RANK_VALUE: Record<string, number> = {
   '10': 10,
   J: 10,
   Q: 10,
-  K: 10,
+  K: 10
 };
 
 export const RANK_ORDER: Record<string, number> = {
@@ -27,7 +27,7 @@ export const RANK_ORDER: Record<string, number> = {
   '10': 10,
   J: 11,
   Q: 12,
-  K: 13,
+  K: 13
 };
 
 export const RANK_PRIMES: Record<string, number> = {
@@ -43,6 +43,5 @@ export const RANK_PRIMES: Record<string, number> = {
   '10': 29,
   J: 31,
   Q: 37,
-  K: 41,
+  K: 41
 };
-

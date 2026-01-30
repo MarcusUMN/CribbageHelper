@@ -1,4 +1,4 @@
-import { Container, Text, Paper } from "@mantine/core";
+import { Container, Text, Paper } from '@mantine/core';
 
 export function Support() {
   return (
@@ -8,7 +8,7 @@ export function Support() {
         shadow="sm"
         radius="md"
         p="xl"
-        style={{ textAlign: "center", backgroundColor: "#f7f9f9" }}
+        style={{ textAlign: 'center', backgroundColor: '#f7f9f9' }}
       >
         <Text size="lg" fw={500}>
           Your support helps keep these cribbage tools up-to-date, so you can

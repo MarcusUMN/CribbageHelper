@@ -1,7 +1,6 @@
 import { Card } from './deck';
 
 export function validateHand(hand: Card[], starter?: Card): boolean {
-
   if (!starter) {
     const unique = new Set(hand.map((c) => `${c.rank}${c.suit}`));
     return unique.size === 4;

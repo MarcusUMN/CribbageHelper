@@ -1,6 +1,7 @@
-import { Table, Title, Group, Text } from "@mantine/core";
-import { ScoreDetail, cardToString, Card } from "../../cribbage";
-import { ShareLinkButton } from "../ShareLinkButton";
+import React from 'react';
+import { Table, Group, Text, Image } from '@mantine/core';
+import { ScoreDetail, cardToString, Card } from '../../../cribbage';
+import { CopyButtonSectionHeader } from '../../../ui/CopyButtonSectionHeader';
 
 function getCardImageFilename(card: Card): string {
   return `/cards/${cardToString(card)}.svg`;
@@ -19,38 +20,38 @@ export const ScoringBreakdown = ({
   details,
   hand,
   starter,
-  isCrib,
+  isCrib
 }: ScoredResult) => {
   return (
-    <div style={{ marginTop: 32 }}>
-      <Group justify="space-between" align="center">
-        <Title order={3} mb="sm">
-          Total Score: {score}
-          <Text span size="sm" c="dimmed" ml="sm">
-            ({isCrib ? "Crib" : "Hand"})
-          </Text>
-        </Title>
-        <ShareLinkButton />
-      </Group>
-      <Group gap="xs" mb="md" mt="md">
+    <React.Fragment>
+      <CopyButtonSectionHeader
+        title={
+          <React.Fragment>
+            Total Score: {score}
+            <Text span size="sm" c="dimmed" ml="sm">
+              ({isCrib ? 'Crib' : 'Hand'})
+            </Text>
+          </React.Fragment>
+        }
+      />
+      <Group>
         {hand.map((card, idx) => (
-          <img
+          <Image
             key={idx}
             src={getCardImageFilename(card)}
-            alt={cardToString(card)}
-            width={60}
-            height={80}
+            w={60}
+            h={80}
+            fit="contain"
           />
         ))}
-        <Text fw={600} mx="sm">
-          +
-        </Text>
-        <img
+        <Text fw={600}>+</Text>
+        <Image
           src={getCardImageFilename(starter)}
           alt={cardToString(starter)}
-          width={60}
-          height={80}
-          style={{ border: "2px solid red" }}
+          w={60}
+          h={80}
+          fit="contain"
+          style={{ border: '2px solid red' }}
         />
       </Group>
       <Table striped withTableBorder withColumnBorders>
@@ -64,19 +65,19 @@ export const ScoringBreakdown = ({
         <Table.Tbody>
           {details.map((d, i) => (
             <Table.Tr key={i}>
-              <Table.Td style={{ textAlign: "center", fontWeight: "bold" }}>
+              <Table.Td style={{ textAlign: 'center', fontWeight: 'bold' }}>
                 {d.points}
               </Table.Td>
               <Table.Td>{d.type}</Table.Td>
               <Table.Td>
-                <Group gap="xs">
+                <Group>
                   {d.cards.map((card, idx) => (
-                    <img
+                    <Image
                       key={idx}
                       src={getCardImageFilename(card)}
-                      alt={cardToString(card)}
-                      width={70}
-                      height={90}
+                      w={70}
+                      h={90}
+                      fit="contain"
                     />
                   ))}
                 </Group>
@@ -85,6 +86,6 @@ export const ScoringBreakdown = ({
           ))}
         </Table.Tbody>
       </Table>
-    </div>
+    </React.Fragment>
   );
 };

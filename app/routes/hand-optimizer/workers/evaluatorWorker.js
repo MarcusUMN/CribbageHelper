@@ -1,4 +1,4 @@
-import { evaluateSixCardHand } from "../../../cribbage";
+import { evaluateSixCardHand } from '../../../cribbage';
 
 self.onmessage = (event) => {
   const { handKey, isMyCrib } = event.data;

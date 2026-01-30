@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useHandEvaluator } from './useHandEvaluater';
 
-export const useCachedEvaluation = (handKey: string | undefined, isMyCrib: boolean) => {
+export const useCachedEvaluation = (
+  handKey: string | undefined,
+  isMyCrib: boolean
+) => {
   const [cachedResult, setCachedResult] = useState<any[] | null>(null);
 
   const cacheKey = `${handKey}-${isMyCrib ? 'Y' : 'N'}`;
@@ -37,6 +40,6 @@ export const useCachedEvaluation = (handKey: string | undefined, isMyCrib: boole
 
   return {
     result: cachedResult ?? result,
-    loading: !cachedResult && loading,
+    loading: !cachedResult && loading
   };
 };

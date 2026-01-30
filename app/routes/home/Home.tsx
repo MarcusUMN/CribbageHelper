@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from 'react-router';
 import {
   Container,
   Title,
@@ -6,14 +6,14 @@ import {
   Stack,
   Button,
   Image,
-  Grid,
-} from "@mantine/core";
+  Grid
+} from '@mantine/core';
 
 const features = [
-  "Score hands quickly and accurately",
-  "Analyze all discard options for optimal play",
-  "Visualize scoring by cut card",
-  "Learn cribbage strategies with real examples",
+  'Score hands quickly and accurately',
+  'Analyze all discard options for optimal play',
+  'Visualize scoring by cut card',
+  'Learn cribbage strategies with real examples'
 ];
 
 export const Home = () => {
@@ -21,7 +21,7 @@ export const Home = () => {
     <Container size="md" py="xl">
       <Stack gap="xl" align="center">
         <Title order={1} ta="center">
-          Welcome to{" "}
+          Welcome to{' '}
           <Title component="span" c="black" fw={1000}>
             CRIBBAGE NINJA
           </Title>
@@ -32,7 +32,7 @@ export const Home = () => {
           explore strategies, and become a stronger player.
         </Text>
 
-        <Grid gutter="xl" align="center" style={{ width: "100%" }}>
+        <Grid gutter="xl" align="center" style={{ width: '100%' }}>
           <Grid.Col span={{ base: 12, md: 6 }} order={{ base: 1, md: 1 }}>
             <Stack gap="md" align="stretch">
               <Title order={3} ta="center">
@@ -48,7 +48,7 @@ export const Home = () => {
                 Cut Probabilities
               </Button>
 
-              <Stack gap="sm" align="center" mt="md">
+              <Stack gap="md" align="center" mt="md">
                 <Title order={4}>Features</Title>
                 <Grid gutter="sm">
                   {features.map((feature, idx) => (
@@ -65,7 +65,7 @@ export const Home = () => {
               src="/cribbage-board.png"
               alt="Cribbage board"
               mx="auto"
-              style={{ maxWidth: "100%", maxHeight: 400, objectFit: "contain" }}
+              style={{ maxWidth: '100%', maxHeight: 400, objectFit: 'contain' }}
             />
           </Grid.Col>
         </Grid>

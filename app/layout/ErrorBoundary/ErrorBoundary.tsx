@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Button, Container, Title, Text, Stack } from "@mantine/core";
-import { Link } from "react-router";
+import { useState, useEffect } from 'react';
+import { Button, Container, Title, Text, Stack } from '@mantine/core';
+import { Link } from 'react-router';
 
 export const ErrorBoundary = () => {
   const [mounted, setMounted] = useState(false);
@@ -13,7 +13,7 @@ export const ErrorBoundary = () => {
 
   return (
     <Container size="sm" pt="xl" ta="center">
-      <Stack gap="md">
+      <Stack>
         <Title order={1}>Oops!</Title>
         <Text size="lg">The page you are looking for no longer exists.</Text>
         <Button

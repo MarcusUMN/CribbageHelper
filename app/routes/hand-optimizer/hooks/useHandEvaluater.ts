@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
-export const useHandEvaluator = (handKey: string | undefined, isMyCrib: boolean) => {
+export const useHandEvaluator = (
+  handKey: string | undefined,
+  isMyCrib: boolean
+) => {
   const [result, setResult] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -8,9 +11,12 @@ export const useHandEvaluator = (handKey: string | undefined, isMyCrib: boolean)
     if (!handKey) return;
 
     setLoading(true);
-    const worker = new Worker(new URL('../workers/evaluatorWorker.js', import.meta.url), {
-      type: 'module',
-    });
+    const worker = new Worker(
+      new URL('../workers/evaluatorWorker.js', import.meta.url),
+      {
+        type: 'module'
+      }
+    );
 
     worker.postMessage({ handKey, isMyCrib });
 

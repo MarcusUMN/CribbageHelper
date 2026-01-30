@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { useSearchParams } from "react-router";
-import { Button, Stack, Switch, Group } from "@mantine/core";
-import { CardSelector } from "../../ui/CardSelector";
-import { PageContainer } from "../../ui/PageContainer";
-import { RandomGeneratorButton } from "../../ui/RandomGeneratorButton";
-import { errorLogic } from "../../ui/ErrorNotifications";
-import { Results } from "./Results";
-import { Card, getRandomHand, getHandHash } from "../../cribbage";
+import { useState } from 'react';
+import { useSearchParams } from 'react-router';
+import { Button, Stack, Switch } from '@mantine/core';
+import { CardSelector } from '../../ui/CardSelector';
+import { PageContainer } from '../../ui/PageContainer';
+import { RandomGeneratorButton } from '../../ui/RandomGeneratorButton';
+import { errorLogic } from '../../ui/ErrorNotifications';
+import { Results } from './Results';
+import { Card, getRandomHand, getHandHash } from '../../cribbage';
 
 export const HandOptimizer = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const dataParam = searchParams.get("data");
-  const cribParam = searchParams.get("crib");
+  const dataParam = searchParams.get('data');
+  const cribParam = searchParams.get('crib');
   const hasQueryParams = Boolean(dataParam);
 
   const [hand, setHand] = useState<(Card | null)[]>([
@@ -21,9 +21,9 @@ export const HandOptimizer = () => {
     null,
     null,
     null,
-    null,
+    null
   ]);
-  const [isMyCrib, setIsMyCrib] = useState(cribParam === "Y");
+  const [isMyCrib, setIsMyCrib] = useState(cribParam === 'Y');
 
   const handleChange = (index: number, card: Card | null) => {
     const updated = [...hand];
@@ -37,7 +37,7 @@ export const HandOptimizer = () => {
     const handHash = getHandHash(hand as Card[]);
     setSearchParams({
       data: handHash,
-      crib: isMyCrib ? "Y" : "N",
+      crib: isMyCrib ? 'Y' : 'N'
     });
   };
 
@@ -50,7 +50,7 @@ export const HandOptimizer = () => {
       <Results
         queryParams={{
           data: dataParam!,
-          crib: cribParam ?? "N",
+          crib: cribParam ?? 'N'
         }}
       />
     );
@@ -63,7 +63,7 @@ export const HandOptimizer = () => {
       label="Select Your Hand (6 cards):"
       headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
-      <Stack gap="xs">
+      <Stack>
         {hand.map((card, idx) => (
           <CardSelector
             label={`Card #${idx + 1}`}
@@ -72,16 +72,15 @@ export const HandOptimizer = () => {
             onChange={(c) => handleChange(idx, c)}
           />
         ))}
+        <Switch
+          label="My Crib"
+          checked={isMyCrib}
+          onChange={(e) => setIsMyCrib(e.currentTarget.checked)}
+        />
+        <Button onClick={handleCalculate} fullWidth>
+          Analyze Hand
+        </Button>
       </Stack>
-      <Switch
-        label="My Crib"
-        mt="sm"
-        checked={isMyCrib}
-        onChange={(e) => setIsMyCrib(e.currentTarget.checked)}
-      />
-      <Button onClick={handleCalculate} mt="sm" fullWidth>
-        Analyze Hand
-      </Button>
     </PageContainer>
   );
 };

@@ -1,10 +1,10 @@
-import { Home } from "./Home";
-import { createMeta } from "../../tools/meta";
+import { Home } from './Home';
+import { createMeta } from '../../tools/meta';
 
 export const meta = () =>
   createMeta({
-    title: "Cribbage Tools",
-    description: "Cribbage calculators and tools",
+    title: 'Cribbage Tools',
+    description: 'Cribbage calculators and tools'
   });
 
 export default Home;
