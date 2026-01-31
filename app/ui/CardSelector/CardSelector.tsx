@@ -85,7 +85,7 @@ export const CardSelector = ({
             }}
           />
           <Grid style={{ width: 70 }} gutter={4}>
-            {suitOptions.map(({ value: val, label, icon }, idx) => (
+            {suitOptions.map(({ value: val, label, icon }) => (
               <Grid.Col span={6} key={val}>
                 <Tooltip label={label} withArrow>
                   <ActionIcon

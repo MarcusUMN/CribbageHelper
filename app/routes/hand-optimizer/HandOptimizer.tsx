@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { Button, Stack, Switch } from '@mantine/core';
 import { CardSelector } from '../../ui/CardSelector';
@@ -10,7 +10,6 @@ import { Card, getRandomHand, getHandHash } from '../../cribbage';
 
 export const HandOptimizer = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const dataParam = searchParams.get('data');
   const cribParam = searchParams.get('crib');
   const hasQueryParams = Boolean(dataParam);
@@ -24,6 +23,13 @@ export const HandOptimizer = () => {
     null
   ]);
   const [isMyCrib, setIsMyCrib] = useState(cribParam === 'Y');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (hasQueryParams) {
+      setLoading(false);
+    }
+  }, [hasQueryParams]);
 
   const handleChange = (index: number, card: Card | null) => {
     const updated = [...hand];
@@ -33,7 +39,7 @@ export const HandOptimizer = () => {
 
   const handleCalculate = () => {
     if (!errorLogic.validateHand(hand)) return;
-
+    setLoading(true);
     const handHash = getHandHash(hand as Card[]);
     setSearchParams({
       data: handHash,
@@ -46,22 +52,15 @@ export const HandOptimizer = () => {
   };
 
   if (hasQueryParams) {
-    return (
-      <Results
-        queryParams={{
-          data: dataParam!,
-          crib: cribParam ?? 'N'
-        }}
-      />
-    );
+    return <Results />;
   }
 
   return (
     <PageContainer
       title="Hand Optimizer"
       description="Analyze your 6-card hand and discover the optimal 4 cards to keep."
-      label="Select Your Hand (6 cards):"
-      headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
+      bottomLeft="Select Your Hand (6 cards):"
+      bottomRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
       <Stack>
         {hand.map((card, idx) => (
@@ -77,7 +76,7 @@ export const HandOptimizer = () => {
           checked={isMyCrib}
           onChange={(e) => setIsMyCrib(e.currentTarget.checked)}
         />
-        <Button onClick={handleCalculate} fullWidth>
+        <Button onClick={handleCalculate} fullWidth loading={loading}>
           Analyze Hand
         </Button>
       </Stack>

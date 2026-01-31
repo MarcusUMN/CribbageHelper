@@ -110,8 +110,8 @@ export const CutProbabilities = () => {
     <PageContainer
       title="Cut Probabilities"
       description="Score your 4-card hand against every possible cut card to see your potential points."
-      label="Select Your Hand (4 cards):"
-      headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
+      bottomLeft="Select Your Hand (4 cards):"
+      bottomRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
       <Stack>
         {hand.map((card, idx) => (
@@ -137,9 +137,11 @@ export const CutProbabilities = () => {
             <Table striped withTableBorder withColumnBorders>
               <Table.Thead>
                 <Table.Tr>
-                  <Table.Th>Score</Table.Th>
-                  <Table.Th>Cut Cards</Table.Th>
-                  <Table.Th style={{ width: 80, textAlign: 'right' }}>
+                  <Table.Th w="20%" ta="center">
+                    Score
+                  </Table.Th>
+                  <Table.Th w="60%">Cut Cards</Table.Th>
+                  <Table.Th w="20%" ta="center">
                     Probability
                   </Table.Th>
                 </Table.Tr>
@@ -153,13 +155,7 @@ export const CutProbabilities = () => {
                     );
                     return (
                       <Table.Tr key={score}>
-                        <Table.Td
-                          style={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 'bold'
-                          }}
-                        >
+                        <Table.Td ta="center" fw="bold">
                           {score}
                         </Table.Td>
                         <Table.Td>
@@ -174,13 +170,7 @@ export const CutProbabilities = () => {
                             ))}
                           </Group>
                         </Table.Td>
-                        <Table.Td
-                          style={{
-                            width: 60,
-                            textAlign: 'center',
-                            fontWeight: 'bold'
-                          }}
-                        >
+                        <Table.Td ta="center" fw="bold">
                           {percentage}%
                         </Table.Td>
                       </Table.Tr>

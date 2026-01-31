@@ -1,41 +1,50 @@
 import { ReactNode } from 'react';
-import { Group, Text, Title, Box } from '@mantine/core';
+import { Group, Text, Title, Stack } from '@mantine/core';
 
 type PageContainerProps = {
   title: string;
+  titleRight?: ReactNode;
   description?: string;
-  label?: string;
-  headerRight?: ReactNode;
+  bottomLeft?: ReactNode;
+  bottomRight?: ReactNode;
   children: ReactNode;
   maxPageWidth?: string;
 };
 
 export const PageContainer = ({
   title,
+  titleRight,
   description,
-  label,
-  headerRight,
+  bottomLeft,
+  bottomRight,
   children,
   maxPageWidth = '400px'
 }: PageContainerProps) => {
   return (
-    <Box pb="16px" maw={maxPageWidth} m="2rem auto">
-      <Title order={2}>{title}</Title>
+    <Stack pb="16px" maw={maxPageWidth} m="2rem auto">
+      <Group>
+        <Title order={2}>{title}</Title>
+        {titleRight}
+      </Group>
 
       {description && (
-        <Text size="sm" c="dimmed" mt="xs" mb="sm">
+        <Text size="sm" c="dimmed">
           {description}
         </Text>
       )}
 
-      {(label || headerRight) && (
-        <Group mb="md" justify="space-between">
-          {label && <Text fw={500}>{label}</Text>}
-          {headerRight && headerRight}
+      {(bottomLeft || bottomRight) && (
+        <Group justify="space-between">
+          {bottomLeft &&
+            (typeof bottomLeft === 'string' ? (
+              <Text fw={500}>{bottomLeft}</Text>
+            ) : (
+              bottomLeft
+            ))}
+          {bottomRight}
         </Group>
       )}
-
       {children}
-    </Box>
+    </Stack>
   );
 };

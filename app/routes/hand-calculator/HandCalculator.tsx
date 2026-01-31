@@ -149,8 +149,8 @@ export const HandCalculator = () => {
     <PageContainer
       title="Hand Calculator"
       description="Score your 4-card hand and starter."
-      label="Select Your Hand (4 cards):"
-      headerRight={<RandomGeneratorButton onClick={handleRandomHand} />}
+      bottomLeft="Select Your Hand (4 cards):"
+      bottomRight={<RandomGeneratorButton onClick={handleRandomHand} />}
     >
       <Stack>
         {hand.map((card, idx) => (

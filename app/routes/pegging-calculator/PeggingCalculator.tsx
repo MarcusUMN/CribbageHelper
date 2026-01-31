@@ -136,8 +136,8 @@ export const PeggingCalculator = () => {
     <PageContainer
       title="Pegging Calculator"
       description="Enter the pegging sequence after a hand to verify scoring."
-      label="Starting Player"
-      headerRight={
+      bottomLeft="Starting Player"
+      bottomRight={
         <RandomGeneratorButton
           label="Generate Random Sequence"
           onClick={handleRandomSequence}
