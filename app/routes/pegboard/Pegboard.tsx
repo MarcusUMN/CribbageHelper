@@ -140,8 +140,8 @@ export const Pegboard = () => {
               </SimpleGrid>
               <Divider />
               <Group justify="space-between" w="100%" wrap="nowrap">
-                <Stack align="center" gap={0} style={{ minWidth: 80 }}>
-                  <Text size="10px" fw={800} c="dimmed" tt="uppercase">
+                <Stack align="center" gap={0} style={{ minWidth: 60 }}>
+                  <Text size="8px" fw={800} c="dimmed" tt="uppercase">
                     Tally
                   </Text>
                   <Text
@@ -156,7 +156,7 @@ export const Pegboard = () => {
 
                 <Group gap={4} wrap="nowrap">
                   <SimpleGrid cols={5} spacing={4}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((v) => (
+                    {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14].map((v) => (
                       <Button
                         key={v}
                         variant="subtle"
