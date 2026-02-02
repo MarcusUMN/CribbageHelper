@@ -140,8 +140,8 @@ export const Pegboard = () => {
               </SimpleGrid>
               <Divider />
               <Group justify="space-between" w="100%" wrap="nowrap">
-                <Stack align="center" gap={0} style={{ minWidth: 60 }}>
-                  <Text size="8px" fw={800} c="dimmed" tt="uppercase">
+                <Stack align="center" gap={0} miw="60">
+                  <Text size="xs" fw={800} c="dimmed" tt="uppercase">
                     Tally
                   </Text>
                   <Text
@@ -153,43 +153,40 @@ export const Pegboard = () => {
                     {pendingPoints > 0 ? `+${pendingPoints}` : pendingPoints}
                   </Text>
                 </Stack>
-
-                <Group gap={4} wrap="nowrap">
-                  <SimpleGrid cols={5} spacing={4}>
-                    {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14].map((v) => (
-                      <Button
-                        key={v}
-                        variant="subtle"
-                        color="gray"
-                        size="xs"
-                        onClick={() =>
-                          setPendingPoints((p) => Math.min(p + v, 29))
-                        }
-                      >
-                        {v}
-                      </Button>
-                    ))}
-                  </SimpleGrid>
-                  <Stack gap={4}>
-                    <ActionIcon
-                      variant="light"
-                      color="red"
-                      size="sm"
-                      onClick={() => setPendingPoints((p) => p * -1)}
-                      disabled={pendingPoints === 0}
-                    >
-                      <IconMinus size={14} />
-                    </ActionIcon>
-                    <ActionIcon
-                      variant="light"
+                <SimpleGrid cols={5} spacing={4}>
+                  {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14].map((v) => (
+                    <Button
+                      key={v}
+                      variant="subtle"
                       color="gray"
-                      size="sm"
-                      onClick={() => setPendingPoints(0)}
+                      size="xs"
+                      onClick={() =>
+                        setPendingPoints((p) => Math.min(p + v, 29))
+                      }
                     >
-                      <IconX size={14} />
-                    </ActionIcon>
-                  </Stack>
-                </Group>
+                      {v}
+                    </Button>
+                  ))}
+                </SimpleGrid>
+                <Stack>
+                  <ActionIcon
+                    variant="light"
+                    color="red"
+                    size="sm"
+                    onClick={() => setPendingPoints((p) => p * -1)}
+                    disabled={pendingPoints === 0}
+                  >
+                    <IconMinus size={14} />
+                  </ActionIcon>
+                  <ActionIcon
+                    variant="light"
+                    color="gray"
+                    size="sm"
+                    onClick={() => setPendingPoints(0)}
+                  >
+                    <IconX size={14} />
+                  </ActionIcon>
+                </Stack>
               </Group>
               <Group grow>
                 {players.map((p) => (
