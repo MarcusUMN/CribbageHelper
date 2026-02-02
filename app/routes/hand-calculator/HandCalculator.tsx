@@ -4,7 +4,6 @@ import { IconInfoCircle } from '@tabler/icons-react';
 import { useSearchParams } from 'react-router';
 import {
   scoreHand,
-  validateHand,
   Card,
   getRandomHand,
   getHandHash,
@@ -48,7 +47,7 @@ export const HandCalculator = () => {
       initialHand.length === 4 &&
       initialHand.every(Boolean) &&
       initialStarter &&
-      validateHand(initialHand as Card[], initialStarter)
+      errorLogic.validateHand(initialHand, { starter: initialStarter })
     ) {
       const result = scoreHand(
         initialHand as Card[],

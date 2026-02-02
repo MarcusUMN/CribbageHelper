@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router';
 import { NavLink, Group, Text } from '@mantine/core';
 import {
   IconHome,
+  IconScoreboard,
   IconCalculator,
   IconBrain,
   IconCut
@@ -21,6 +22,13 @@ type NavItem =
 
 const navItems: NavItem[] = [
   { type: 'link', link: '/', label: 'Home', icon: IconHome },
+  { type: 'section', label: 'Play' },
+  {
+    type: 'link',
+    link: '/pegboard',
+    label: 'Pegboard',
+    icon: IconScoreboard
+  },
   { type: 'section', label: 'Calculator' },
   {
     type: 'link',
@@ -37,8 +45,8 @@ const navItems: NavItem[] = [
   { type: 'section', label: 'Probabilities / Analysis' },
   {
     type: 'link',
-    link: '/hand-optimizer',
-    label: 'Hand Optimizer',
+    link: '/hand-discard-analyzer',
+    label: 'Hand Discard Analyzer',
     icon: IconCut
   },
   {
@@ -82,7 +90,7 @@ export const NavBar = ({ drawerOpened, onLinkClick }: NavBarProps) => {
               if (drawerOpened && onLinkClick) onLinkClick();
             }}
             label={
-              <Group>
+              <Group wrap="nowrap">
                 <Icon stroke={1.5} color="var(--mantine-color-appTealBlue-0)" />
                 <span>{item.label}</span>
               </Group>

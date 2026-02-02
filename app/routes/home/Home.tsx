@@ -41,8 +41,8 @@ export const Home = () => {
               <Button component={Link} to="/hand-calculator" fullWidth>
                 Hand Calculator
               </Button>
-              <Button component={Link} to="/hand-optimizer" fullWidth>
-                Hand Optimizer
+              <Button component={Link} to="/hand-discard-analyzer" fullWidth>
+                Hand Discard Analyzer
               </Button>
               <Button component={Link} to="/cut-probabilities" fullWidth>
                 Cut Probabilities

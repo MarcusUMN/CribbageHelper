@@ -55,7 +55,6 @@ export const errorLogic = {
       P1: [...p1Plays],
       P2: [...p2Plays]
     };
-    console.log('Validating playable sequence', hands, starter);
     const allCards = [...hands.P1, ...hands.P2];
     if (!errorLogic.validateNotEmpty(allCards)) return false;
     if (!errorLogic.validateNoDuplicates(allCards)) return false;

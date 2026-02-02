@@ -10,8 +10,8 @@ import { ComputeButtonBlock } from '../../ui/ComputeButtonBlock';
 import { errorLogic } from '../../ui/ErrorNotifications';
 import { Card } from '../../cribbage';
 import {
-  calculatePeggingSequenceFromHands,
-  generateLegalPeggingHands,
+  scoreSequence,
+  generatePeggingHands,
   getHandHash,
   parseHandString
 } from '../../cribbage';
@@ -54,7 +54,7 @@ export const PeggingCalculator = () => {
 
   const [results, setResults] = useState<any[] | null>(() => {
     if (initialP1.length === 4 && initialP2.length === 4) {
-      return calculatePeggingSequenceFromHands({
+      return scoreSequence({
         starter: initialStartingPlayer,
         p1Plays: initialP1,
         p2Plays: initialP2
@@ -103,10 +103,10 @@ export const PeggingCalculator = () => {
   ) => {
     if (!errorLogic.validatePlayableSequence(starter, p1, p2)) return;
 
-    const pegging = calculatePeggingSequenceFromHands({
+    const pegging = scoreSequence({
       starter,
-      p1Plays: p1,
-      p2Plays: p2
+      p1Plays: p1 as Card[],
+      p2Plays: p2 as Card[]
     }).map((p, idx) => ({ ...p, idx, reason: p.reasons.join(', ') }));
 
     const inputs: PeggingInputs = {
@@ -125,7 +125,7 @@ export const PeggingCalculator = () => {
   };
 
   const handleRandomSequence = () => {
-    const { p1, p2 } = generateLegalPeggingHands();
+    const { p1, p2 } = generatePeggingHands();
     setP1Plays(p1);
     setP2Plays(p2);
     setStartingPlayer('P1');
@@ -157,11 +157,7 @@ export const PeggingCalculator = () => {
 
         <Group align="flex-start" grow>
           <Stack>
-            <Title
-              order={5}
-              ta="center"
-              bg="var(--mantine-color-appCyanLight-0)"
-            >
+            <Title order={5} ta="center" c="white" bg="blue">
               Player 1
             </Title>
             <Group>
@@ -178,11 +174,7 @@ export const PeggingCalculator = () => {
           </Stack>
 
           <Stack>
-            <Title
-              order={5}
-              ta="center"
-              bg="var(--mantine-color-appPinkLight-0)"
-            >
+            <Title order={5} ta="center" c="white" bg="red">
               Player 2
             </Title>
             <Group>
@@ -209,23 +201,13 @@ export const PeggingCalculator = () => {
           <React.Fragment>
             <CopyButtonSectionHeader title="Pegging Sequence" />
             <Group grow>
-              <Title
-                order={5}
-                ta="center"
-                bg="var(--mantine-color-appCyanLight-0)"
-                p="md"
-              >
+              <Title order={5} ta="center" bg="blue" c="white" p="md">
                 P1 - Total:{' '}
                 {results
                   .filter((r) => r.player === 'P1')
                   .reduce((sum, r) => sum + r.points, 0)}
               </Title>
-              <Title
-                order={5}
-                ta="center"
-                bg="var(--mantine-color-appPinkLight-0)"
-                p="md"
-              >
+              <Title order={5} ta="center" c="white" bg="red" p="md">
                 P2 - Total:{' '}
                 {results
                   .filter((r) => r.player === 'P2')
@@ -247,11 +229,10 @@ export const PeggingCalculator = () => {
                 {results.map((play, i) => (
                   <Table.Tr
                     key={i}
-                    bg={
-                      play.player === 'P1'
-                        ? 'var(--mantine-color-appCyanLight-0)'
-                        : 'var(--mantine-color-appPinkLight-0)'
-                    }
+                    bg={play.player === 'P1' ? 'blue' : 'red'}
+                    c="white"
+                    fw="bold"
+                    ta="center"
                   >
                     <Table.Td>{play.player}</Table.Td>
                     <Table.Td>
@@ -260,6 +241,7 @@ export const PeggingCalculator = () => {
                           rank={play.card.rank}
                           suit={play.card.suit}
                           iconSize={20}
+                          textProps={{ fw: 'bold' }}
                         />
                       ) : (
                         '—'
@@ -267,7 +249,7 @@ export const PeggingCalculator = () => {
                     </Table.Td>
                     <Table.Td>{play.runningTotal}</Table.Td>
                     <Table.Td>{play.points}</Table.Td>
-                    <Table.Td>{play.reason}</Table.Td>
+                    <Table.Td ta="left">{play.reason}</Table.Td>
                   </Table.Tr>
                 ))}
               </Table.Tbody>

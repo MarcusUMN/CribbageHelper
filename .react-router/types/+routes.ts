@@ -14,13 +14,16 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/pegboard": {
+    params: {};
+  };
   "/hand-calculator": {
     params: {};
   };
   "/pegging-calculator": {
     params: {};
   };
-  "/hand-optimizer": {
+  "/hand-discard-analyzer": {
     params: {};
   };
   "/cut-probabilities": {
@@ -34,15 +37,19 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/hand-calculator" | "/pegging-calculator" | "/hand-optimizer" | "/cut-probabilities" | "/support";
+    page: "/" | "/pegboard" | "/hand-calculator" | "/pegging-calculator" | "/hand-discard-analyzer" | "/cut-probabilities" | "/support";
   };
   "layout/PageLayout/PageLayout.tsx": {
     id: "layout/PageLayout/PageLayout";
-    page: "/" | "/hand-calculator" | "/pegging-calculator" | "/hand-optimizer" | "/cut-probabilities" | "/support";
+    page: "/" | "/pegboard" | "/hand-calculator" | "/pegging-calculator" | "/hand-discard-analyzer" | "/cut-probabilities" | "/support";
   };
   "routes/home/route.tsx": {
     id: "routes/home/route";
     page: "/";
+  };
+  "routes/pegboard/route.tsx": {
+    id: "routes/pegboard/route";
+    page: "/pegboard";
   };
   "routes/hand-calculator/route.tsx": {
     id: "routes/hand-calculator/route";
@@ -52,9 +59,9 @@ type RouteFiles = {
     id: "routes/pegging-calculator/route";
     page: "/pegging-calculator";
   };
-  "routes/hand-optimizer/route.tsx": {
-    id: "routes/hand-optimizer/route";
-    page: "/hand-optimizer";
+  "routes/hand-discard-analyzer/route.tsx": {
+    id: "routes/hand-discard-analyzer/route";
+    page: "/hand-discard-analyzer";
   };
   "routes/cut-probabilities/route.tsx": {
     id: "routes/cut-probabilities/route";
@@ -70,9 +77,10 @@ type RouteModules = {
   "root": typeof import("./app/root.tsx");
   "layout/PageLayout/PageLayout": typeof import("./app/layout/PageLayout/PageLayout.tsx");
   "routes/home/route": typeof import("./app/routes/home/route.tsx");
+  "routes/pegboard/route": typeof import("./app/routes/pegboard/route.tsx");
   "routes/hand-calculator/route": typeof import("./app/routes/hand-calculator/route.tsx");
   "routes/pegging-calculator/route": typeof import("./app/routes/pegging-calculator/route.tsx");
-  "routes/hand-optimizer/route": typeof import("./app/routes/hand-optimizer/route.tsx");
+  "routes/hand-discard-analyzer/route": typeof import("./app/routes/hand-discard-analyzer/route.tsx");
   "routes/cut-probabilities/route": typeof import("./app/routes/cut-probabilities/route.tsx");
   "routes/support/route": typeof import("./app/routes/support/route.tsx");
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Group, Text, Image } from '@mantine/core';
-import { ScoreDetail, cardToString, Card } from '../../../cribbage';
+import { CardScore, cardToString, Card } from '../../../cribbage';
 import { CopyButtonSectionHeader } from '../../../ui/CopyButtonSectionHeader';
 
 function getCardImageFilename(card: Card): string {
@@ -9,7 +9,7 @@ function getCardImageFilename(card: Card): string {
 
 export type ScoredResult = {
   score: number;
-  details: ScoreDetail[];
+  details: CardScore[];
   hand: Card[];
   starter: Card;
   isCrib: boolean;
@@ -68,7 +68,7 @@ export const ScoringBreakdown = ({
               <Table.Td style={{ textAlign: 'center', fontWeight: 'bold' }}>
                 {d.points}
               </Table.Td>
-              <Table.Td>{d.type}</Table.Td>
+              <Table.Td>{d.label}</Table.Td>
               <Table.Td>
                 <Group>
                   {d.cards.map((card, idx) => (
