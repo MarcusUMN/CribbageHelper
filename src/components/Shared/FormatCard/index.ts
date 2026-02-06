@@ -1,1 +1,0 @@
-export { FormatCard } from './FormatCard';

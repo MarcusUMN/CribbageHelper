@@ -1,1 +1,0 @@
-export {HandCalculator} from './HandCalculator';

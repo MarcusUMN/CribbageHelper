@@ -1,0 +1,16 @@
+.link:hover {
+  background: var(--mantine-color-appDeepTeal-0);
+  color: white;
+  transform: translateY(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.link[data-active] {
+  background: white;
+  color: var(--mantine-color-appTealBlue-0);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
