@@ -1,4 +1,5 @@
 import { Card } from '../core/deck';
+import { RANK_ORDER } from '../core/constants';
 
 export function combine(
   cards: Card[],
@@ -26,9 +27,9 @@ export function getAllCombosOfSize(cards: Card[], size: number): Card[][] {
 
 export function isRun(cards: Card[]): boolean {
   if (cards.length < 3) return false;
-  const sorted = [...cards].sort((a, b) => a.rank.localeCompare(b.rank));
+  const sorted = [...cards].sort((a, b) => RANK_ORDER[a.rank] - RANK_ORDER[b.rank]);
   for (let i = 1; i < sorted.length; i++) {
-    if (sorted[i].rank.charCodeAt(0) !== sorted[i - 1].rank.charCodeAt(0) + 1)
+    if (RANK_ORDER[sorted[i].rank] !== RANK_ORDER[sorted[i - 1].rank] + 1)
       return false;
   }
   return true;
